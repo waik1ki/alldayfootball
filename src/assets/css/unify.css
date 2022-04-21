@@ -1,0 +1,282 @@
+/* 디자인의 통일감을 위한 하나로 합친 CSS 파일 */
+
+@font-face {
+    font-family: hzStyleFont2;
+    src: local("Apple SD Gothic Neo"),
+         url("./AppleSDGothicNeoM.woff") format('woff'),
+         url("./AppleSDGothicNeoM.ttf") format('truetype');
+  }
+h4,h5 {
+    font-family: 'hzStyleFont2', 'Apple SD Gothic Neo' !important;
+}
+.v-application{
+    font-family: 'hzStyleFont2', 'Apple SD Gothic Neo' !important;
+}
+.v-application p{
+    margin-bottom:0;
+    font-family: 'hzStyleFont2', 'Apple SD Gothic Neo';
+}
+p{
+    font-family: 'hzStyleFont2', 'Apple SD Gothic Neo';
+}
+p::selection{
+    background-color:rgba(55,200,55,.2);
+}
+br::selection{
+    background-color:transparent;
+}
+.mainNewsText {
+    font-size: 1rem;
+    font-weight: bold;
+}
+.mainNewsSubText {
+    font-size: .9rem;
+}
+.titleText{
+    font-size:3rem;
+    font-weight: 600;
+}
+.titleSubText{
+    font-size:2rem;
+}
+.subText{
+    font-size:1rem;
+}
+.listTinyText{
+    font-size:12px;
+    color:#b7b7b7;
+}
+.newsTitle {
+    font-size: 40px;
+    font-weight: bold;
+    /* font-family: 'Roboto', cursive; */
+    line-height: 1.1;
+    color: #686565;
+}
+.navTitle{
+    font-weight: 600;
+    color: #686565 !important;
+    text-decoration: none;
+}
+.headerText{
+    font-size:15px;
+    font-weight: 700;
+}
+.mainText{
+    font-size:32px;
+    font-weight: 900;
+}
+.mainSubText{
+    font-size:18px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.8) !important;
+}
+.sideText{
+    font-size: 12px;
+}
+.articleListText{
+    font-size:13px;
+}
+.sliderTitleText{
+    font-size:16px;
+}
+.sliderSubText{
+    font-size:12px;
+    color:rgba(0,0,0,.5);
+}
+.topicText{
+    font-size:20px;
+    font-weight: 600;
+    font-family: 'hzStyleFont2', sans-serif !important;
+}
+.topicSubText{
+    font-size:14px;
+    font-weight: 500;
+    color:rgba(0,0,0,.5);
+}
+.articleTitleText{
+    font-size:18px;
+    font-weight: 600;
+}
+.articleTitleText2{
+    font-size:15px;
+    font-weight: 500;
+}
+.articleSubText{
+    font-size:14px;
+}
+.articleTinyText{
+    font-size:12px;
+    color:rgba(0,0,0,.5)
+}
+.footerSubText{
+    font-size:12px;
+}
+.tableStyle > tr > td{
+    padding: 6px;
+}
+.termsMainText {
+    font-size: 26px;
+    font-weight: 800;
+}
+.termsTitleText {
+    font-size: 19px;
+    font-weight: 700;
+}
+.termsSubText {
+    font-size: 15px;
+    line-height: 1.6;
+}
+.agreeText {
+    font-size: 17px;
+    font-weight: 800;
+}
+.agreeSubText {
+    font-size: 14px;
+}
+.introduceText {
+    font-size: 17px;
+    font-weight: 500;
+}
+.subscribeMainText{
+    font-size: 48px;
+    font-weight: 800;
+    color: white;
+}
+.subscribeSubText{
+    font-size: 24px;
+    font-weight: 800;
+    color: white;
+}
+@media (max-width:1550px){
+    .headerText{
+        font-size:14px;
+    }
+    .mainText{
+        font-size:28px;
+    }
+    .mainSubText{
+        font-size:16px;
+    }
+    .sliderTitleText{
+        font-size:14px;
+    }
+    .sliderSubText{
+        font-size:12px;
+    }
+    .subscribeMainText {
+        font-size: 36px;
+    }
+    .subscribeSubText {
+        font-size: 16px;
+    }    
+}
+@media (max-width:1350px){
+    .headerText{
+        font-size:12px;
+    }
+}
+@media (max-width:1263px){
+    .subText{
+        font-size:.8rem;
+    }
+    .subscribeMainText {
+        font-size: 24px;
+    }
+    .subscribeSubText {
+        font-size: 16px;
+    }    
+}
+@media (max-width:1000px){
+    .titleText{
+        font-size:2.4rem;
+    }
+    .titleSubText{
+        font-size:1.5rem;
+    }
+    .subText{
+        font-size:.7rem;
+    }
+    .listTinyText{
+        font-size:11px;
+    }
+    .subscribeMainText {
+        font-size: 24px;
+    }
+    .subscribeSubText {
+        font-size: 16px;
+    }    
+}
+@media (max-width:680px){
+    .mainText{
+        font-size:20px;
+    }
+    .titleText{
+        font-size:2rem;
+    }
+    .titleSubText{
+        font-size:1.5rem;
+    }
+    .subText{
+        font-size:.7rem;
+    }
+    .listTinyText{
+        font-size:11px;
+    }
+    .subscribeMainText {
+        font-size: 24px;
+    }
+    .subscribeSubText {
+        font-size: 16px;
+    }  
+}
+@media (max-width:520px){
+    .mainText{
+        font-size:18px;
+    }
+    .titleText{
+        font-size:1.5rem;
+        }
+    .titleSubText{
+        font-size:1.1rem;
+    }
+    .subText{
+        font-size:.7rem;
+    }
+    .listTinyText{
+        font-size:10px;
+    }
+    .headLineNewsTitle {
+        font-size: 12px;
+    }
+    .headLineNews {
+        font-size: 12px;
+    }
+    .navTitle{
+        font-size: 12px;
+        font-weight: bold;
+        color: #686565 !important;
+        text-decoration: none;
+    }
+    .introduceText {
+        font-size: 13px;
+    }
+    .termsMainText {
+        font-size: 20px;
+        font-weight: 800;
+    }
+    .termsTitleText {
+        font-size: 14px;
+        font-weight: 700;
+    }
+    .termsSubText {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+    .subscribeMainText {
+        font-size: 24px;
+    }
+    .subscribeSubText {
+        font-size: 16px;
+    }
+}
