@@ -415,13 +415,15 @@
           </p>
         </v-col>
         <v-col class="py-3" style="background-color:#0C9045;" cols="2">
-          <p style="color:white; border-right:1px solid white;" class="sliderTitleText">날짜</p>
-        </v-col>
-        <v-col class="py-3" style="background-color:#0C9045;" cols="1">
           <p
-            style="color:white;"
+            style="color:white; border-right:1px solid white;"
             class="sliderTitleText"
           >
+            날짜
+          </p>
+        </v-col>
+        <v-col class="py-3" style="background-color:#0C9045;" cols="1">
+          <p style="color:white;" class="sliderTitleText">
             고유번호
           </p>
         </v-col>
@@ -438,7 +440,7 @@
             style="overflow:hidden; border-right:1px solid rgba(0,0,0,.2);;"
             class="sliderTitleText"
           >
-            {{ (index + 1) + ((page - 1) * 10) }}
+            {{ index + 1 + (page - 1) * 10 }}
           </p>
         </v-col>
         <v-col class="py-2" cols="1">
@@ -475,15 +477,18 @@
           </p>
         </v-col>
         <v-col class="py-2" cols="2">
-          <p class="sliderTitleText" style="overflow:hidden; border-right:1px solid rgba(0,0,0,.2);;">{{ i.regTime.slice(0, 10) }}</p>
-        </v-col>
-        <v-col class="py-2" cols="1">
           <p
             class="sliderTitleText"
+            style="overflow:hidden; border-right:1px solid rgba(0,0,0,.2);;"
           >
+            {{ i.regTime.slice(0, 10) }}
+          </p>
+        </v-col>
+        <v-col class="py-2" cols="1">
+          <p class="sliderTitleText">
             {{ i.seq }}
           </p>
-        </v-col>        
+        </v-col>
       </v-row>
     </div>
 
@@ -572,18 +577,18 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 // import draggable from "vuedraggable";
 
-axios.defaults.headers["Pragma"] = "no-cache";
+axios.defaults.headers['Pragma'] = 'no-cache';
 export default {
   components: {
     // draggable,
   },
   data() {
     return {
-      row: "regTime",
-      search: "",
+      row: 'regTime',
+      search: '',
       titleCheck: true,
       contentCheck: true,
       bLength: 0,
@@ -591,39 +596,39 @@ export default {
       newHeadline: [],
       boardResult: [],
       dragResult: [],
-      headlineTitle: "",
-      editID: "",
-      editTitle: "",
+      headlineTitle: '',
+      editID: '',
+      editTitle: '',
       author: null,
       reviewAuthor: null,
       nickName: null,
       saveBtn: false,
       dialog2: false,
-      headlineList: [{ author: "" }, { title: "" }],
+      headlineList: [{ author: '' }, { title: '' }],
       HLList: [],
       page: 1,
       hPage: 1,
       thisUrl: '',
 
       category: [
-        "k1",
-        "k2",
-        "k3",
-        "k4",
-        "k5",
-        "인터뷰",
-        "스포츠칼럼",
-        "K리그결과",
+        'k1',
+        'k2',
+        'k3',
+        'k4',
+        'k5',
+        '인터뷰',
+        '스포츠칼럼',
+        'K리그결과',
       ],
       select: [
-        "k1",
-        "k2",
-        "k3",
-        "k4",
-        "k5",
-        "인터뷰",
-        "스포츠칼럼",
-        "K리그결과",
+        'k1',
+        'k2',
+        'k3',
+        'k4',
+        'k5',
+        '인터뷰',
+        '스포츠칼럼',
+        'K리그결과',
       ],
     };
   },
@@ -677,18 +682,18 @@ export default {
     },
     dialogWidth() {
       switch (this.$vuetify.breakpoint.name) {
-        case "xs":
-          return "100%";
-        case "sm":
-          return "100%";
-        case "md":
-          return "90%";
-        case "lg":
-          return "60%";
-        case "xl":
-          return "50%";
+        case 'xs':
+          return '100%';
+        case 'sm':
+          return '100%';
+        case 'md':
+          return '90%';
+        case 'lg':
+          return '60%';
+        case 'xl':
+          return '50%';
         default:
-          return "100%";
+          return '100%';
       }
     },
     pLength() {
@@ -720,21 +725,21 @@ export default {
     },
     getConfig() {
       this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7,10);
+      this.thisUrl = this.thisUrl.substring(7, 10);
       if (this.thisUrl === 'www') {
         this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      }else{
+      } else {
         this.thisUrl = 'http://alldayfootball.co.kr/';
       }
 
       axios
         .post(`${this.thisUrl}api/config/findone`, {
-          id: "60e246fb2145564307fa6265",
+          id: '60e246fb2145564307fa6265',
         })
-        .then((res) => {
+        .then(res => {
           var menuList = [];
           for (var i = 0; i < res.data.info.length; i++) {
-            if (res.data.info[i].to === "subMenu") {
+            if (res.data.info[i].to === 'subMenu') {
               for (var o = 0; o < res.data.info[i].subMenu.length; o++) {
                 menuList.push(res.data.info[i].subMenu[o].title);
               }
@@ -748,34 +753,32 @@ export default {
     },
     getUrl() {
       this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7,10);
+      this.thisUrl = this.thisUrl.substring(7, 10);
       if (this.thisUrl === 'www') {
         this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      }else{
+      } else {
         this.thisUrl = 'http://alldayfootball.co.kr/';
       }
     },
     getheadlineList() {
-      axios.get(`${this.thisUrl}api/headline/find`).then((res) => {
+      axios.get(`${this.thisUrl}api/headline/find`).then(res => {
         this.headlineList = res.data;
         // console.log(this.userList);
       });
     },
     getHLList() {
       this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7,10);
+      this.thisUrl = this.thisUrl.substring(7, 10);
       if (this.thisUrl === 'www') {
         this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      }else{
+      } else {
         this.thisUrl = 'http://alldayfootball.co.kr/';
       }
 
-      axios
-        .get(`${this.thisUrl}api/headline/find2`)
-        .then((res) => {
-          this.HLList = res.data[0].list;
-          // console.log(this.HLList);
-        });
+      axios.get(`${this.thisUrl}api/headline/find2`).then(res => {
+        this.HLList = res.data[0].list;
+        // console.log(this.HLList);
+      });
     },
     clickTitle(num) {
       location.href = `/admin/edit?num=${num}`;
@@ -785,10 +788,10 @@ export default {
     },
     takeBoard() {
       this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7,10);
+      this.thisUrl = this.thisUrl.substring(7, 10);
       if (this.thisUrl === 'www') {
         this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      }else{
+      } else {
         this.thisUrl = 'http://alldayfootball.co.kr/';
       }
 
@@ -800,26 +803,26 @@ export default {
           word: this.search,
           sort: this.row,
         })
-        .then((res) => {
+        .then(res => {
           this.boardResult = res.data.docs;
           this.bLength = res.data.totalDocs;
         });
     },
     findPagination() {
       this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7,10);
+      this.thisUrl = this.thisUrl.substring(7, 10);
       if (this.thisUrl === 'www') {
         this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      }else{
+      } else {
         this.thisUrl = 'http://alldayfootball.co.kr/';
       }
-      
+
       axios
         .post(`${this.thisUrl}api/headline/pagination`, {
           limit: 10,
           page: this.hPage,
         })
-        .then((res) => {
+        .then(res => {
           // console.log(res);
           this.headlineList = res.data.docs;
           this.hbLength = res.data.totalDocs;
@@ -833,7 +836,7 @@ export default {
           limit: 10,
           page: this.hPage,
         })
-        .then((res) => {
+        .then(res => {
           // console.log(res);
           this.headlineList = res.data.docs;
           this.hbLength = res.data.totalDocs;
@@ -846,7 +849,7 @@ export default {
             this.HLList.unshift(this.headlineList[0]);
             this.dragUpdateHeadlineList(this.HLList);
           }
-        });        
+        });
     },
     writeheadline() {
       axios
@@ -855,22 +858,22 @@ export default {
           author: this.reviewAuthor,
           title: this.headlineTitle,
         })
-        .then((res) => {
+        .then(res => {
           // console.log(photoURL);
-          if (res.data === "uploaded") {
+          if (res.data === 'uploaded') {
             this.clickfindPagination();
             // alert('업로드');
-            this.headlineTitle = "";
-            this.reviewAuthor = "";
-            this.nickName = "";
+            this.headlineTitle = '';
+            this.reviewAuthor = '';
+            this.nickName = '';
             return;
           }
-          if (res.data === "not_logged") {
-            alert("권한이 없습니다.");
+          if (res.data === 'not_logged') {
+            alert('권한이 없습니다.');
             return;
           }
-          if (res.data === "not_admin") {
-            alert("권한이 없습니다.");
+          if (res.data === 'not_admin') {
+            alert('권한이 없습니다.');
             return;
           }
         });
@@ -880,71 +883,71 @@ export default {
         .post(`${this.thisUrl}api/headline/headlineListWrite`, {
           list: this.dragResult,
         })
-        .then((res) => {
+        .then(res => {
           // console.log(photoURL);
-          if (res.data === "uploaded") {
-            alert("업로드 성공.");
+          if (res.data === 'uploaded') {
+            alert('업로드 성공.');
             return;
           }
-          if (res.data === "not_logged") {
-            alert("권한이 없습니다.");
+          if (res.data === 'not_logged') {
+            alert('권한이 없습니다.');
             return;
           }
-          if (res.data === "not_admin") {
-            alert("권한이 없습니다.");
+          if (res.data === 'not_admin') {
+            alert('권한이 없습니다.');
             return;
           }
-        });        
+        });
     },
     dragUpdateHeadlineList(data) {
       axios
         .put(`${this.thisUrl}api/headline/edit2`, {
-          id: "6109017fd09d248b448cae5a",
+          id: '6109017fd09d248b448cae5a',
           list: data,
         })
-        .then((res) => {
-          if (res.data === "updated") {
-            alert("업로드 성공.");
+        .then(res => {
+          if (res.data === 'updated') {
+            alert('업로드 성공.');
           }
-        });        
+        });
     },
     dragHeadlineList() {
       axios
         .put(`${this.thisUrl}api/headline/edit2`, {
-          id: "6109017fd09d248b448cae5a",
+          id: '6109017fd09d248b448cae5a',
           list: this.HLList,
         })
-        .then((res) => {
-          if (res.data === "updated") {
-            alert("수정되었습니다.");
+        .then(res => {
+          if (res.data === 'updated') {
+            alert('수정되었습니다.');
           }
         });
     },
     edit() {
-        axios
-          .put(`${this.thisUrl}api/headline/edit`, {
-            id: this.editID,
-            title: this.editTitle,
-          })
-          .then((res) => {
-            // console.log(photoURL);
-            if (res.data === "updated") {
-              this.findPagination();
-              this.getHLList();
-              alert("업데이트 성공.");
-              this.editTitle = "";
-              return;
-            }
-            if (res.data === "not_logged") {
-              alert("권한이 없습니다.");
-              return;
-            }
-            if (res.data === "not_admin") {
-              alert("권한이 없습니다.");
-              return;
-            }
-          });
-        this.dialog2 = false;
+      axios
+        .put(`${this.thisUrl}api/headline/edit`, {
+          id: this.editID,
+          title: this.editTitle,
+        })
+        .then(res => {
+          // console.log(photoURL);
+          if (res.data === 'updated') {
+            this.findPagination();
+            this.getHLList();
+            alert('업데이트 성공.');
+            this.editTitle = '';
+            return;
+          }
+          if (res.data === 'not_logged') {
+            alert('권한이 없습니다.');
+            return;
+          }
+          if (res.data === 'not_admin') {
+            alert('권한이 없습니다.');
+            return;
+          }
+        });
+      this.dialog2 = false;
     },
     openEdit(data) {
       this.editID = data._id;
@@ -956,16 +959,16 @@ export default {
         .post(`${this.thisUrl}api/headline/delete`, {
           id: data,
         })
-        .then((res) => {
-          if (res.data === "not_logged") {
-            alert("권한이 없습니다.");
+        .then(res => {
+          if (res.data === 'not_logged') {
+            alert('권한이 없습니다.');
             return;
           }
-          if (res.data === "not_admin") {
-            alert("권한이 없습니다.");
+          if (res.data === 'not_admin') {
+            alert('권한이 없습니다.');
             return;
           }
-          if (res.data === "deleted") {
+          if (res.data === 'deleted') {
             // this.findPagination();
             // alert("삭제 되었습니다.");
             return;
@@ -975,19 +978,19 @@ export default {
         .put(`${this.thisUrl}api/headline/delete2`, {
           id: data,
         })
-        .then((res) => {
-          if (res.data === "not_logged") {
-            alert("권한이 없습니다.");
+        .then(res => {
+          if (res.data === 'not_logged') {
+            alert('권한이 없습니다.');
             return;
           }
-          if (res.data === "not_admin") {
-            alert("권한이 없습니다.");
+          if (res.data === 'not_admin') {
+            alert('권한이 없습니다.');
             return;
           }
-          if (res.data === "deleted") {
+          if (res.data === 'deleted') {
             this.findPagination();
             this.getHLList();
-            alert("삭제 되었습니다.");
+            alert('삭제 되었습니다.');
             return;
           }
         });
@@ -997,22 +1000,22 @@ export default {
         .put(`${this.thisUrl}api/headline/delete2`, {
           id: data,
         })
-        .then((res) => {
-          if (res.data === "not_logged") {
-            alert("권한이 없습니다.");
+        .then(res => {
+          if (res.data === 'not_logged') {
+            alert('권한이 없습니다.');
             return;
           }
-          if (res.data === "not_admin") {
-            alert("권한이 없습니다.");
+          if (res.data === 'not_admin') {
+            alert('권한이 없습니다.');
             return;
           }
-          if (res.data === "deleted") {
+          if (res.data === 'deleted') {
             this.findPagination();
-            alert("삭제 되었습니다.");
+            alert('삭제 되었습니다.');
             return;
           }
-        });        
-    }
+        });
+    },
   },
   watch: {
     page() {
@@ -1029,7 +1032,7 @@ export default {
     },
   },
   mounted() {
-    axios.get(`${this.thisUrl}api/auth/check`).then((res) => {
+    axios.get(`${this.thisUrl}api/auth/check`).then(res => {
       this.author = res.data.info.name;
     });
   },
@@ -1057,5 +1060,5 @@ export default {
 </style>
 
 <style scoped>
-@import url("../../assets/css/unify.css");
+@import url('../../assets/css/unify.css');
 </style>

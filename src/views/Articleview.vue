@@ -1,77 +1,135 @@
 <template>
-<div v-if="completed" class="ArticleView mx-auto">
-    <v-row no-gutters :style="{width:ContentWidth}" class="mx-auto px-4">
-        <v-col class="d-flex mt-10 mb-5" cols="12">
-            <p style="cursor:pointer;" class="articleTinyText" @click="toHome">Home</p>
-            <v-icon small class="mx-3">mdi-chevron-right</v-icon>
-            <p style="cursor:pointer; font-weight:900; color:green;" class="articleTinyText" @click="toCate()">{{queryTitle}}</p>
-        </v-col>
+  <div v-if="completed" class="ArticleView mx-auto">
+    <v-row no-gutters :style="{ width: ContentWidth }" class="mx-auto px-4">
+      <v-col class="d-flex mt-10 mb-5" cols="12">
+        <p style="cursor:pointer;" class="articleTinyText" @click="toHome">
+          Home
+        </p>
+        <v-icon small class="mx-3">mdi-chevron-right</v-icon>
+        <p
+          style="cursor:pointer; font-weight:900; color:green;"
+          class="articleTinyText"
+          @click="toCate()"
+        >
+          {{ queryTitle }}
+        </p>
+      </v-col>
     </v-row>
-    <v-row no-gutters :style="{width:ContentWidth}" class="mx-auto px-4">
-        <v-col class="my-3" cols="12">
-            <p class="articleTitleText">{{title}}</p>
-        </v-col>
-        <v-col class="d-flex" lg="auto" cols="12 my-3">
-            <p class="articleTinyText">{{regTime.slice(0,10)}}</p>
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col class="d-flex justify-end" cols="auto">
-            <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn elevation="0" icon width="32" height="32" @click="urlShare" v-bind="attrs" v-on="on">
-                        <v-icon color="black" small>mdi-link-variant</v-icon>
-                        </v-btn>
-                </template>
-                <span>URL 공유하기</span>
-            </v-tooltip>
-            <v-tooltip v-if="!this.$vuetify.breakpoint.mdAndDown" top>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn elevation="0" icon color="grey" width="32" height="32" @click="print" v-bind="attrs" v-on="on">
-                        <v-icon color="black" small>mdi-printer</v-icon>
-                        </v-btn>
-                </template>
-                <span>인쇄하기</span>
-            </v-tooltip>
-            <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn class="mx-1" elevation="0"  icon width="32" height="32" @click="facebookShare" v-bind="attrs" v-on="on">
-                        <v-img height="32" width="32" src="@/assets/sns/sharefacebook.png"></v-img>
-                        </v-btn>
-                </template>
-                <span>페이스북 공유하기</span>
-            </v-tooltip>
-            <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                    <v-btn class="mx-1" elevation="0" icon width="32" height="32" @click="twitterShare" v-bind="attrs" v-on="on">
-                        <v-img height="32" width="32" src="@/assets/sns/sharetwitter.png"></v-img>
-                        </v-btn>
-                </template>
-                <span>트위터 공유하기</span>
-            </v-tooltip>
-        </v-col>
+    <v-row no-gutters :style="{ width: ContentWidth }" class="mx-auto px-4">
+      <v-col class="my-3" cols="12">
+        <p class="articleTitleText">{{ title }}</p>
+      </v-col>
+      <v-col class="d-flex" lg="auto" cols="12 my-3">
+        <p class="articleTinyText">{{ regTime.slice(0, 10) }}</p>
+      </v-col>
+      <v-spacer></v-spacer>
+      <v-col class="d-flex justify-end" cols="auto">
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              elevation="0"
+              icon
+              width="32"
+              height="32"
+              @click="urlShare"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon color="black" small>mdi-link-variant</v-icon>
+            </v-btn>
+          </template>
+          <span>URL 공유하기</span>
+        </v-tooltip>
+        <v-tooltip v-if="!this.$vuetify.breakpoint.mdAndDown" top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              elevation="0"
+              icon
+              color="grey"
+              width="32"
+              height="32"
+              @click="print"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon color="black" small>mdi-printer</v-icon>
+            </v-btn>
+          </template>
+          <span>인쇄하기</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="mx-1"
+              elevation="0"
+              icon
+              width="32"
+              height="32"
+              @click="facebookShare"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-img
+                height="32"
+                width="32"
+                src="@/assets/sns/sharefacebook.png"
+              ></v-img>
+            </v-btn>
+          </template>
+          <span>페이스북 공유하기</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="mx-1"
+              elevation="0"
+              icon
+              width="32"
+              height="32"
+              @click="twitterShare"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-img
+                height="32"
+                width="32"
+                src="@/assets/sns/sharetwitter.png"
+              ></v-img>
+            </v-btn>
+          </template>
+          <span>트위터 공유하기</span>
+        </v-tooltip>
+      </v-col>
     </v-row>
     <v-divider class="mt-4"></v-divider>
-    <v-row no-gutters :style="{width:ContentWidth}" class="mx-auto">
-        <v-col class="mt-12" cols="12">
-            <div>
-                <div v-if="queryTitle === '풋볼레터'" style="height: auto !important;" v-html="contents"></div>
-                <div v-else id="htmlViewer" class="px-4" v-html="contents"></div>
-            </div>
-            <v-row no-gutters>
-                <v-col class="mt-10" cols="12">
-                    <v-card elevation="0" class="px-4">
-                        <p class="sliderSubText mb-7">Copyright ⓒ 올데이풋볼. All rights reserved. 무단 전재 및 재배포 금지.</p>
-                    </v-card>
-                    <!-- <v-card elevation="0" class="d-flex align-center pa-2">
+    <v-row no-gutters :style="{ width: ContentWidth }" class="mx-auto">
+      <v-col class="mt-12" cols="12">
+        <div>
+          <div
+            v-if="queryTitle === '풋볼레터'"
+            style="height: auto !important;"
+            v-html="contents"
+          ></div>
+          <div v-else id="htmlViewer" class="px-4" v-html="contents"></div>
+        </div>
+        <v-row no-gutters>
+          <v-col class="mt-10" cols="12">
+            <v-card elevation="0" class="px-4">
+              <p class="sliderSubText mb-7">
+                Copyright ⓒ 올데이풋볼. All rights reserved. 무단 전재 및 재배포
+                금지.
+              </p>
+            </v-card>
+            <!-- <v-card elevation="0" class="d-flex align-center pa-2">
                         <v-card elevation="0" height="45" width="45" color="rgba(88,211,88,.2)" rounded="circle">
                             <v-img width="100%" height="100%" :src="photo"></v-img>
                         </v-card>
                         <p class="mx-2 ml-4 articleTitleText2">{{name}} 기자</p>
                         <p class="mx-2 sliderSubText">제보: {{email}}</p>
                     </v-card> -->
-                </v-col>
-            </v-row>
-                <!-- <v-col class="mt-16 mb-2" cols="12">
+          </v-col>
+        </v-row>
+        <!-- <v-col class="mt-16 mb-2" cols="12">
                     <p class="listSubText my-5">전체 댓글 <span style="color:green;">{{cmtCount}}</span>개</p>
                     <v-divider style="border:1px solid rgba(55, 155, 55, 0.3);"></v-divider>
                 </v-col>
@@ -128,196 +186,234 @@
                 <v-col class="mt-6" cols="12">
                     <v-divider style="border:1px solid rgba(55, 155, 55, 0.3);"></v-divider>
                 </v-col> -->
-        </v-col>
+      </v-col>
     </v-row>
-</div>
+  </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 axios.defaults.headers['Pragma'] = 'no-cache';
-import VueCookies from 'vue-cookies'
+import VueCookies from 'vue-cookies';
 export default {
-    components:{
+  components: {},
+  created() {
+    // this.getConfig();
+    this.getBoard();
+  },
+  data() {
+    return {
+      toggle_exclusive: 0,
+      title: null,
+      author: null,
+      authorid: null,
+      name: '',
+      email: '',
+      photo:
+        'https://kr.object.ncloudstorage.com/alldayfootball/defalut/defalut.png',
+      bNum: null,
+      contents: null,
+      parent: null,
+      regTime: '',
+      menuList: [],
+      completed: false,
+      queryTitle: '',
+    };
+  },
+  mounted() {},
+  methods: {
+    // getConfig(){
+    //     axios.post('http://alldayfootball.co.kr/api/config/findone',{
+    //         id:"60e246fb2145564307fa6265"
+    //     })
+    //     .then((res)=>{
+    //         this.menuList = res.data.info;
+    //     })
+    // },
+    getBoard() {
+      var n = parseInt(this.$route.query.num);
+      axios
+        .post('http://alldayfootball.co.kr/api/board/findone', {
+          seq: n,
+        })
+        .then(res => {
+          this.title = res.data.title;
+          this.author = res.data.author;
+          this.authorid = res.data.authorid;
+          this.bNum = res.data.bNum;
+          this.contents = res.data.contents;
+          this.regTime = res.data.regTime;
+          this.getAuthor();
+          this.addViews();
+          switch (this.bNum) {
+            case 0:
+              this.queryTitle = '풋볼레터';
+              break;
+            case 1:
+              this.queryTitle = '뉴스';
+              break;
+            case 2:
+              this.queryTitle = '칼럼';
+              break;
+          }
+          this.completed = true;
+        });
     },
-    created(){
-        // this.getConfig();
-        this.getBoard();
+    getAuthor() {
+      axios
+        .post('http://alldayfootball.co.kr/api/auth/findone', {
+          id: this.authorid,
+        })
+        .then(res => {
+          this.name = res.data.name;
+          this.email = res.data.email;
+          this.photo = res.data.photo;
+        });
     },
-    data(){
-        return{
-            toggle_exclusive:0,
-            title:null,
-            author:null,
-            authorid:null,
-            name:'',
-            email:'',
-            photo:'https://kr.object.ncloudstorage.com/alldayfootball/defalut/defalut.png',
-            bNum:null,
-            contents:null,
-            parent:null,
-            regTime:'',
-            menuList:[],
-            completed: false,
-            queryTitle:''
+    addViews() {
+      if (VueCookies.isKey(`views${this.$route.query.num}`)) return;
+      else {
+        VueCookies.set(`views${this.$route.query.num}`, new Date());
+        axios.put('http://alldayfootball.co.kr/api/board/addviews', {
+          seq: this.$route.query.num,
+        });
       }
     },
-    mounted(){
-        
+    facebookShare() {
+      var sendUrl = `http://alldayfootball.co.kr/articleView?num=${this.$route.query.num}`; // 전달할 URL
+      window.open('http://www.facebook.com/sharer/sharer.php?u=' + sendUrl);
     },
-    methods:{
-        // getConfig(){
-        //     axios.post('http://alldayfootball.co.kr/api/config/findone',{
-        //         id:"60e246fb2145564307fa6265"
-        //     })
-        //     .then((res)=>{
-        //         this.menuList = res.data.info;
-        //     })
-        // },
-        getBoard(){
-            var n = parseInt(this.$route.query.num);
-            axios.post('http://alldayfootball.co.kr/api/board/findone',{
-                seq:n
-            })
-            .then((res)=>{
-                this.title = res.data.title;
-                this.author = res.data.author;
-                this.authorid = res.data.authorid;
-                this.bNum = res.data.bNum;
-                this.contents = res.data.contents;
-                this.regTime = res.data.regTime;
-                this.getAuthor();
-                this.addViews();
-                switch (this.bNum) {
-                    case 0: this.queryTitle = '풋볼레터'; break;
-                    case 1: this.queryTitle = '뉴스'; break;
-                    case 2: this.queryTitle = '칼럼'; break;
-                }
-                this.completed = true;
-                
-            })
-        },
-        getAuthor(){
-            axios.post('http://alldayfootball.co.kr/api/auth/findone',{
-                id:this.authorid
-            })
-            .then((res)=>{
-                this.name = res.data.name;
-                this.email = res.data.email;
-                this.photo = res.data.photo;
-            })
-        },
-        addViews(){
-            if(VueCookies.isKey(`views${this.$route.query.num}`)) return;
-            else{
-                VueCookies.set(`views${this.$route.query.num}`, new Date());
-                axios.put('http://alldayfootball.co.kr/api/board/addviews',{
-                    seq:this.$route.query.num
-                })
-            }
-        },
-        facebookShare(){
-            var sendUrl = `http://alldayfootball.co.kr/articleView?num=${this.$route.query.num}`; // 전달할 URL
-            window.open("http://www.facebook.com/sharer/sharer.php?u=" + sendUrl);
-        },
-        twitterShare(){
-            var sendUrl = `http://alldayfootball.co.kr/articleView?num=${this.$route.query.num}`; // 전달할 URL
-            var sendText = `올데이풋볼 ${this.title}`;
-            window.open("https://twitter.com/intent/tweet?text=" + sendText + "&url=" + sendUrl);
-        },
-        urlShare(){
-            var link = `http://alldayfootball.co.kr/articleView?num=${this.$route.query.num}`;
-            const ele = document.createElement('textarea');
-            ele.value = link;
-            document.body.appendChild(ele);
-            ele.select();
-            document.execCommand("copy");
-            document.body.removeChild(ele);
-            alert('URL이 복사되었습니다. \n Ctrl+V로 붙여넣을 수 있습니다.');
-        },
-        toHome(){
-            location.href="/";
-        },
-        toCate(){
-            switch(this.bNum){
-                case 0 :location.href="/Articlelist?name=k1"; break;
-                case 1 :location.href="/Articlelist?name=k2"; break;
-                case 2 :location.href="/Articlelist?name=k3"; break;
-                case 3 :location.href="/Articlelist?name=k4"; break;
-                case 4 :location.href="/Articlelist?name=k5"; break;
-                case 5 :location.href="/Articlelist?name=article01"; break;
-                case 6 :location.href="/Articlelist?name=article02"; break;
-                case 7 :location.href="/Articlelist?name=article03"; break;
-                case 8 :location.href="/Articlelist?name=article04"; break;
-                case 9 :location.href="/Articlelist?name=article05"; break;
-                default : return 'title'
-            }
-        },
-        print(){
-            window.onbeforeprint = () =>{
-                document.body.innerHTML = document.getElementById('htmlViewer').innerHTML;
-            }
-             window.onafterprint = function(){
-                location.reload();
-            };
-            window.print();
-            return false;
-        },
+    twitterShare() {
+      var sendUrl = `http://alldayfootball.co.kr/articleView?num=${this.$route.query.num}`; // 전달할 URL
+      var sendText = `올데이풋볼 ${this.title}`;
+      window.open(
+        'https://twitter.com/intent/tweet?text=' + sendText + '&url=' + sendUrl,
+      );
     },
-    computed:{
-        // queryTitle(){
-        //     switch(this.bNum){
-        //         case 0 :return this.menuList[0].subMenu[0].title;
-        //         case 1 :return this.menuList[0].subMenu[1].title;
-        //         case 2 :return this.menuList[0].subMenu[2].title;
-        //         case 3 :return this.menuList[0].subMenu[3].title;
-        //         case 4 :return this.menuList[0].subMenu[4].title;
-        //         case 5 :return this.menuList[1].title;
-        //         case 6 :return this.menuList[2].title;
-        //         case 7 :return this.menuList[3].title;
-        //         case 8 :return this.menuList[4].title;
-        //         case 9 :return this.menuList[5].title;
-        //         default : return 'title'
-        //     }
-        // },
-        ContentWidth(){  
-            switch(this.$vuetify.breakpoint.name){
-                case 'xs' : return "100%";
-                case 'sm' : return "100%";
-                case 'md' : return "100%";
-                case 'lg' : return "780px";
-                case 'xl' : return "780px";
-                default : return "780px";
-            }
-        },          
+    urlShare() {
+      var link = `http://alldayfootball.co.kr/articleView?num=${this.$route.query.num}`;
+      const ele = document.createElement('textarea');
+      ele.value = link;
+      document.body.appendChild(ele);
+      ele.select();
+      document.execCommand('copy');
+      document.body.removeChild(ele);
+      alert('URL이 복사되었습니다. \n Ctrl+V로 붙여넣을 수 있습니다.');
     },
-    watch:{
-        $route(){
-            this.getBoard();
-            // this.getComment();
-        },
-        page(){
-            // this.getComment();
-        },
+    toHome() {
+      location.href = '/';
     },
-
-}
+    toCate() {
+      switch (this.bNum) {
+        case 0:
+          location.href = '/Articlelist?name=k1';
+          break;
+        case 1:
+          location.href = '/Articlelist?name=k2';
+          break;
+        case 2:
+          location.href = '/Articlelist?name=k3';
+          break;
+        case 3:
+          location.href = '/Articlelist?name=k4';
+          break;
+        case 4:
+          location.href = '/Articlelist?name=k5';
+          break;
+        case 5:
+          location.href = '/Articlelist?name=article01';
+          break;
+        case 6:
+          location.href = '/Articlelist?name=article02';
+          break;
+        case 7:
+          location.href = '/Articlelist?name=article03';
+          break;
+        case 8:
+          location.href = '/Articlelist?name=article04';
+          break;
+        case 9:
+          location.href = '/Articlelist?name=article05';
+          break;
+        default:
+          return 'title';
+      }
+    },
+    print() {
+      window.onbeforeprint = () => {
+        document.body.innerHTML = document.getElementById(
+          'htmlViewer',
+        ).innerHTML;
+      };
+      window.onafterprint = function() {
+        location.reload();
+      };
+      window.print();
+      return false;
+    },
+  },
+  computed: {
+    // queryTitle(){
+    //     switch(this.bNum){
+    //         case 0 :return this.menuList[0].subMenu[0].title;
+    //         case 1 :return this.menuList[0].subMenu[1].title;
+    //         case 2 :return this.menuList[0].subMenu[2].title;
+    //         case 3 :return this.menuList[0].subMenu[3].title;
+    //         case 4 :return this.menuList[0].subMenu[4].title;
+    //         case 5 :return this.menuList[1].title;
+    //         case 6 :return this.menuList[2].title;
+    //         case 7 :return this.menuList[3].title;
+    //         case 8 :return this.menuList[4].title;
+    //         case 9 :return this.menuList[5].title;
+    //         default : return 'title'
+    //     }
+    // },
+    ContentWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '100%';
+        case 'sm':
+          return '100%';
+        case 'md':
+          return '100%';
+        case 'lg':
+          return '780px';
+        case 'xl':
+          return '780px';
+        default:
+          return '780px';
+      }
+    },
+  },
+  watch: {
+    $route() {
+      this.getBoard();
+      // this.getComment();
+    },
+    page() {
+      // this.getComment();
+    },
+  },
+};
 </script>
 
 <style>
-#htmlViewer *{
+#htmlViewer * {
   max-width: 100% !important;
   height: auto !important;
 }
-.ArticleView .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
-    box-shadow:none;
+.ArticleView
+  .v-text-field.v-text-field--solo:not(.v-text-field--solo-flat)
+  > .v-input__control
+  > .v-input__slot {
+  box-shadow: none;
 }
-.ArticleView .v-pagination__navigation{
-    height: 25px !important;
-    width: 25px !important;
+.ArticleView .v-pagination__navigation {
+  height: 25px !important;
+  width: 25px !important;
 }
-.ArticleView .v-pagination__item{
-    min-width: 25px !important;
-    height: 25px !important;
+.ArticleView .v-pagination__item {
+  min-width: 25px !important;
+  height: 25px !important;
 }
 </style>
