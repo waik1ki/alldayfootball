@@ -114,13 +114,6 @@ export default {
         '|',
         'fullsize',
         'print',
-        // {
-        //     name: 'insertDate',
-        //     tooltip: 'Insert current Date',
-        //     exec: (editor) => {
-        //         editor.s.insertHTML(new Date().toDateString());
-        //     }
-        // },
       ],
       buttonsXS: [
         'bold',

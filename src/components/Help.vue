@@ -46,20 +46,6 @@
 import axios from 'axios';
 axios.defaults.headers['Pragma'] = 'no-cache';
 export default {
-  mounted() {
-    axios
-      .post('http://alldayfootball.co.kr/api/settingboard/findone', {
-        id: '60ce9a39b7062e4c6c092cb4',
-      })
-      .then(res => {
-        this.contents = res.data.contents;
-      });
-  },
-  data() {
-    return {
-      contents: '',
-    };
-  },
   computed: {
     ContentWidth() {
       switch (this.$vuetify.breakpoint.name) {

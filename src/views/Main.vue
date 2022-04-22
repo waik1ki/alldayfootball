@@ -9,37 +9,7 @@
       <v-col cols="12" class="pa-0">
         <div class="py-5" style="background-color: #F1F1F5; width: 100%;">
           <div :style="{ width: ContentWidth }" class="mx-auto">
-            <p class="text-center mb-1 mainSubText">구독자 후기</p>
-            <carousel-3d
-              :width="300"
-              :height="170"
-              :disable3d="true"
-              :display="3"
-              :space="320"
-              :controls-visible="true"
-              v-if="reviewShow"
-            >
-              <slide
-                v-for="(i, idx) in headlineList"
-                :key="idx"
-                :index="idx"
-                :style="
-                  idx % 2 == 0
-                    ? 'border-radius: 10px; background: white; border: 1px solid rgba(0,0,0,.12); color: #686565'
-                    : 'border-radius: 10px; background: #98A4B4; border: 1px solid #98A4B4; color: white;'
-                "
-                class="pa-5"
-              >
-                <div style="font-size:.90rem; font-weight: bold; !important;">
-                  <p>{{ i.nickName }}</p>
-                  <p class="pb-3">{{ i.author }} 님</p>
-                </div>
-                <p
-                  style="font-size: .83rem; !important;"
-                  v-html="getContent(i.title)"
-                ></p>
-              </slide>
-            </carousel-3d>
+            <Review></Review>
           </div>
         </div>
       </v-col>
@@ -148,7 +118,7 @@
               class="mainNewsSubText"
               style="color:black; cursor:pointer;"
             >
-              {{ i.pretext }}
+              {{ i.pretext | sliceText }}
             </p>
           </v-card>
         </div>
@@ -158,15 +128,14 @@
 </template>
 
 <script>
-import { Carousel3d, Slide } from 'vue-carousel-3d';
+import Review from '@/components/Review.vue';
+import { fetchBoard } from '@/api/board';
 import Subscribe from './Subscribe.vue';
-import axios from 'axios';
-axios.defaults.headers['Pragma'] = 'no-cache';
+
 export default {
   components: {
     Subscribe,
-    Carousel3d,
-    Slide,
+    Review,
   },
   data() {
     return {
@@ -307,55 +276,11 @@ export default {
   },
   created() {
     this.takeBoard();
-    this.getheadlineList();
   },
   methods: {
-    maskingName() {
-      for (var i = 0; i < this.headlineList.length; i++) {
-        if (this.headlineList[i].author.length < 4) {
-          this.headlineList[i].author =
-            this.headlineList[i].author.slice(0, 1) + '**';
-          // console.log(this.headlineList[i].author, this.headlineList[i].author.length);
-        } else {
-          var star = '*';
-          for (var j = 2; j < this.headlineList[i].author.length; j++) {
-            star = star + '*';
-          }
-          // console.log(star);
-          this.headlineList[i].author =
-            this.headlineList[i].author.slice(0, 1) + star;
-          // console.log(this.headlineList[i].author, this.headlineList[i].author.length);
-        }
-      }
-    },
-    getContent(content) {
-      return content.split('\n').join('<br>');
-    },
-    getheadlineList() {
-      axios.get('http://alldayfootball.co.kr/api/headline/find2').then(res => {
-        this.headlineList = res.data[0].list;
-        // console.log(this.headlineList);
-        this.reviewShow = true;
-        this.maskingName();
-      });
-    },
-    takeBoard() {
-      axios
-        .post('http://alldayfootball.co.kr/api/board/takeboard', {
-          bNum: null,
-          limit: 12,
-          page: 1,
-          word: '',
-        })
-        .then(res => {
-          this.boardResult = res.data.docs;
-          for (var i = 0; i < this.boardResult.length; i++) {
-            this.boardResult[i].pretext =
-              this.boardResult[i].pretext.slice(0, 80) + '...';
-          }
-          // this.findThumb();
-          // this.findPretext();
-        });
+    async takeBoard() {
+      const { data } = await fetchBoard(null, 12, 1, '');
+      this.boardResult = data.docs;
     },
     goToView(num) {
       location.href = `/articleView?num=${num}`;

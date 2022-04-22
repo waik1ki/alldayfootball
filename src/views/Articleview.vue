@@ -353,21 +353,6 @@ export default {
     },
   },
   computed: {
-    // queryTitle(){
-    //     switch(this.bNum){
-    //         case 0 :return this.menuList[0].subMenu[0].title;
-    //         case 1 :return this.menuList[0].subMenu[1].title;
-    //         case 2 :return this.menuList[0].subMenu[2].title;
-    //         case 3 :return this.menuList[0].subMenu[3].title;
-    //         case 4 :return this.menuList[0].subMenu[4].title;
-    //         case 5 :return this.menuList[1].title;
-    //         case 6 :return this.menuList[2].title;
-    //         case 7 :return this.menuList[3].title;
-    //         case 8 :return this.menuList[4].title;
-    //         case 9 :return this.menuList[5].title;
-    //         default : return 'title'
-    //     }
-    // },
     ContentWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':

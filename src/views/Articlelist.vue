@@ -178,6 +178,7 @@
 </template>
 
 <script>
+import { fetchBoard } from '@/api/board';
 import axios from 'axios';
 axios.defaults.headers['Pragma'] = 'no-cache';
 export default {
@@ -189,23 +190,10 @@ export default {
       page: 1,
       bLength: 10,
       completed: false,
-      // menuList:[
-      //     {title:'집중취재', to:'subMenu', subMenu:[{title:'k1',to:'/Articlelist?name=k1'},
-      //     {title:'k2',to:'/Articlelist?name=k2'},
-      //     {title:'k3',to:'/Articlelist?name=k3'},
-      //     {title:'k4',to:'/Articlelist?name=k4'},
-      //     {title:'k5',to:'/Articlelist?name=k5'}]},
-      //     {title:'', to:'/Articlelist?name=article01'},
-      //     {title:'', to:'/Articlelist?name=article02'},
-      //     {title:'', to:'/Articlelist?name=article03'},
-      //     {title:'', to:'/Articlelist?name=article04'},
-      //     {title:'', to:'/Articlelist?name=article05'},
-      // ],
       queryTitle: '',
     };
   },
   created() {
-    // this.getConfig();
     switch (this.$route.query.name) {
       case 'k1':
         this.takeBoard(0);
@@ -249,48 +237,11 @@ export default {
     }
   },
   methods: {
-    // getConfig(){
-    //     axios.post('http://alldayfootball.co.kr/api/config/findone',{
-    //         id:"60e246fb2145564307fa6265"
-    //     })
-    //     .then((res)=>{
-    //         this.menuList = res.data.info;
-    //         // console.log(this.menuList);
-    //         // console.log(this.menuList[0].subMenu[0].title);
-    //     })
-    // },
-    takeBoard(Num) {
-      axios
-        .post('http://alldayfootball.co.kr/api/board/takeboard', {
-          bNum: Num,
-          limit: this.limit,
-          page: this.page,
-          word: '',
-        })
-        .then(res => {
-          this.boardResult = res.data.docs;
-          // console.log(this.boardResult)
-          this.bLength = res.data.totalDocs;
-          // this.findThumb();
-          // this.findPretext();
-          this.completed = true;
-        });
+    async takeBoard(Num) {
+      const { data } = await fetchBoard(Num, this.limit, this.page, '');
+      this.boardResult = data.docs;
+      this.bLength = data.totalDocs;
     },
-    // findThumb(){
-    //     for(var i = 0; i<this.boardResult.length; i++){
-    //         if(this.boardResult[i].contents.includes('<img')){
-    //         var tagIndex = this.boardResult[i].contents.indexOf('<img');
-    //         var tagSrcIndex = this.boardResult[i].contents.indexOf('src="',tagIndex+4);
-    //         var tagEndIndex = this.boardResult[i].contents.indexOf('"',tagSrcIndex+5);
-    //         this.boardResult[i].thumb = this.boardResult[i].contents.slice(tagSrcIndex+5,tagEndIndex);
-    //         }
-    //     }
-    // },
-    // findPretext(){
-    //     for(var i = 0; i<this.boardResult.length; i++){
-    //         this.boardResult[i].pretext = this.boardResult[i].contents.replace(/(<([^>]+)>|&nbsp;|@([^>]+)})/ig,"").slice(0,150)+('...');
-    //     }
-    // },
     goToView(num) {
       location.href = `/articleView?num=${num}`;
     },
@@ -340,22 +291,6 @@ export default {
           return 10;
       }
     },
-    // queryTitle(){
-    //     switch(this.$route.query.name){
-    //         case 'k1' :return this.menuList[0].subMenu[0].title;
-    //         case 'k2' :return this.menuList[0].subMenu[1].title;
-    //         case 'k3' :return this.menuList[0].subMenu[2].title;
-    //         case 'k4' :return this.menuList[0].subMenu[3].title;
-    //         case 'k5' :return this.menuList[0].subMenu[4].title;
-    //         case 'article01' :return this.menuList[1].title;
-    //         case 'article02' :return this.menuList[2].title;
-    //         case 'article03' :return this.menuList[3].title;
-    //         case 'article04' :return this.menuList[4].title;
-    //         case 'article05' :return this.menuList[5].title;
-    //         case 'search' :return '검색 결과';
-    //         default : return 'title'
-    //     }
-    // },
     pLength() {
       var quo = parseInt(this.bLength / this.limit);
       var rem = this.bLength % this.limit;

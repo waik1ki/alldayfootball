@@ -21,7 +21,6 @@ export default {
     Header,
     Footer,
   },
-  mounted() {},
   computed: {
     ContentWidth() {
       if (window.location.href.includes('admin')) {

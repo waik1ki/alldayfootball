@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import config from '@/store/modules/config';
 import { check } from '@/api/auth';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    drawerBool: false,
     adminDrawerBool: true,
     isLogged: false,
     user: {},
@@ -18,14 +19,8 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    set_drawerBool(state, bool) {
-      state.drawerBool = bool;
-    },
     set_adminDrawerBool(state, bool) {
       state.adminDrawerBool = bool;
-    },
-    setIsLogged(state, bool) {
-      state.isLogged = bool;
     },
     setUserData(state, userData) {
       state.user = userData;
@@ -33,9 +28,6 @@ export default new Vuex.Store({
     clearUser(state) {
       state.user = {};
     },
-    // set_loading(state,bool){
-    //   state.loading = bool;
-    // },
   },
   actions: {
     async CHECK_AUTH({ commit }) {
@@ -44,5 +36,12 @@ export default new Vuex.Store({
       return data;
     },
   },
-  modules: {},
+  modules: {
+    config,
+  },
+  plugins: [
+    createPersistedState({
+      paths: ['config'],
+    }),
+  ],
 });

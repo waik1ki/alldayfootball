@@ -46,7 +46,7 @@
           align-self="center"
           cols="6"
         >
-          <v-btn @click="tryLogin">로그인</v-btn>
+          <v-btn @click="Login">로그인</v-btn>
         </v-col>
         <v-col
           class="d-flex justify-center"
@@ -54,18 +54,16 @@
           align-self="center"
           cols="6"
         >
-          <v-btn @click="clickLogout">로그아웃</v-btn>
+          <v-btn @click="Logout">로그아웃</v-btn>
         </v-col>
       </v-row>
-      <v-btn @click="checkAuth"></v-btn>
     </div>
   </div>
 </template>
 
 <script>
 import { check, login, logout } from '@/api/auth';
-import axios from 'axios';
-axios.defaults.headers['Pragma'] = 'no-cache';
+
 export default {
   data() {
     return {
@@ -74,14 +72,8 @@ export default {
       logged: false,
     };
   },
-  mounted() {
-    axios.get('api/auth/check').then(res => {
-      if (res.data.success === true) this.logged = true;
-      else this.logged = false;
-    });
-  },
   methods: {
-    async tryLogin() {
+    async Login() {
       try {
         const userData = {
           id: this.id,
@@ -97,6 +89,7 @@ export default {
     },
     async Logout() {
       const response = await logout();
+      this.$store.commit('setUserData', {});
       console.log(response);
     },
   },

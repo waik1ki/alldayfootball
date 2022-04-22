@@ -3,7 +3,6 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import { check } from '@/api/auth';
 axios.defaults.headers['Pragma'] = 'no-cache';
-// import bus from '../utils/bus'
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -88,7 +87,7 @@ const router = new VueRouter({
         {
           path: '/admin/accout',
           name: 'Accout',
-          component: () => import('../components/Admin/Accout.vue'),
+          component: () => import('../components/Admin/Account/Accout.vue'),
           meta: { auth: true },
         },
         {

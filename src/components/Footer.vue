@@ -1,24 +1,27 @@
 <template>
-  <div class="Footer mt-10" style="width:100%; background-color:#00923B;">
+  <div
+    v-if="isLoding"
+    class="Footer mt-10"
+    style="width:100%; background-color:#00923B;"
+  >
     <div
       :style="{ width: ContentWidth }"
       class="mx-auto px-7"
       v-if="!this.$vuetify.breakpoint.smAndDown"
     >
-      <!-- <div style="width: 100%; border-bottom: 1px solid rgba(255,255,255,.4);"></div> -->
       <v-row class="py-6" no-gutters style="font-weight: 500;">
         <v-col cols="8">
           <div class="d-flex align-end">
             <p class="footerSubText" style="color: white">
-              올데이컴퍼니 | 대표자 : 이학진 | {{ add }} <br />
-              전화번호 : {{ tel.replace(/-/gi, ' - ') }} | FAX : 02 - 6944 -
-              9018 | 메일주소 : {{ email }}<br />
+              올데이컴퍼니 | 대표자 : 이학진 | {{ footer.add }} <br />
+              전화번호 : {{ footer.tel.replace(/-/gi, ' - ') }} | FAX : 02 -
+              6944 - 9018 | 메일주소 : {{ footer.email }}<br />
               사업자등록번호 : 178-06-01298 | 통신판매업신고 :
               제2021-고양덕양구-1421호<br />
               직업정보제공사업 신고번호 : J1202020210005 | 등록번호 :
               경기,아53080<br /><br />
-              발행인 : {{ pub }} | 편집인: {{ edi }} | 청소년보호정책책임자:
-              {{ pol }}<br /><br />
+              발행인 : {{ footer.pub }} | 편집인: {{ footer.edi }} |
+              청소년보호정책책임자: {{ footer.pol }}<br /><br />
               Copyright © 2019 by alldaycompany. All rights reserved.
             </p>
           </div>
@@ -114,7 +117,7 @@
                 style="color:rgba(255,255,255,.8); text-align:center;"
                 class="articleTinyText pa-1"
               >
-                전화번호: {{ tel.replace(/-/gi, ' - ') }}
+                전화번호: {{ footer.tel.replace(/-/gi, ' - ') }}
               </p>
               <p
                 style="color:rgba(255,255,255,.8); text-align:center;"
@@ -126,7 +129,7 @@
                 style="color:rgba(255,255,255,.8); text-align:center;"
                 class="articleTinyText pa-1"
               >
-                메일주소 : {{ email }}
+                메일주소 : {{ footer.email }}
               </p>
               <p
                 style="color:rgba(255,255,255,.8); text-align:center;"
@@ -156,13 +159,13 @@
                 style="color:rgba(255,255,255,.8); text-align:center;"
                 class="articleTinyText pa-1"
               >
-                발행인: {{ pub }} | 편집인: {{ edi }}
+                발행인: {{ footer.pub }} | 편집인: {{ footer.edi }}
               </p>
               <p
                 style="color:rgba(255,255,255,.8); text-align:center;"
                 class="articleTinyText pa-1"
               >
-                청소년보호정책책임자: {{ pol }}
+                청소년보호정책책임자: {{ footer.pol }}
               </p>
             </v-col>
             <v-col class="mb-2" cols="12">
@@ -170,7 +173,7 @@
                 style="color:rgba(255,255,255,.8); text-align:center;"
                 class="articleTinyText pa-2"
               >
-                {{ add }}
+                {{ footer.add }}
               </p>
               <p
                 style="color:rgba(255,255,255,.8); text-align:center;"
@@ -186,20 +189,20 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-axios.defaults.headers['Pragma'] = 'no-cache';
+import { mapState } from 'vuex';
 export default {
   data() {
     return {
-      email: '',
-      tel: '',
-      pub: '',
-      edi: '',
-      pol: '',
-      add: '',
+      isLoding: false,
     };
   },
+  created() {
+    this.fetchData();
+  },
   computed: {
+    ...mapState({
+      footer: state => state.config.footerData,
+    }),
     ContentWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
@@ -217,26 +220,15 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getConfig();
-  },
   methods: {
+    async fetchData() {
+      if (this.footer === {}) {
+        await this.$store.dispatch('FETCH_FOOTER_DATA');
+        this.isLoding = true;
+      } else this.isLoding = true;
+    },
     goto(r) {
       location.href = r;
-    },
-    getConfig() {
-      axios
-        .post('http://alldayfootball.co.kr/api/config/findone', {
-          id: '60d6b0c44dcc9e16fc936574',
-        })
-        .then(res => {
-          this.email = res.data.info.email;
-          this.tel = res.data.info.tel;
-          this.pub = res.data.info.pub;
-          this.edi = res.data.info.edi;
-          this.pol = res.data.info.pol;
-          this.add = res.data.info.add;
-        });
     },
   },
 };

@@ -8,6 +8,9 @@ module.exports = {
     'vuex',
     'vue-router',
   ],
+  devServer: {
+    overlay: false,
+  },
   // configureWebpack: {
   //     plugins: [new BundleAnalyzerPlugin()]
   // }

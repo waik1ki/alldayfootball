@@ -7,6 +7,10 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 import VueCookies from 'vue-cookies';
+import { sliceText, maskingName } from '@/utils/filters';
+
+Vue.filter('sliceText', sliceText);
+Vue.filter('maskingName', maskingName);
 
 Vue.config.productionTip = false;
 Vue.use(VueCookies);

@@ -87,12 +87,9 @@
 </template>
 
 <script>
-// import { check } from '@/api/auth';
 import { mapState } from 'vuex';
 import { logout } from '@/api/auth';
 
-import axios from 'axios';
-axios.defaults.headers['Pragma'] = 'no-cache';
 export default {
   data() {
     return {
@@ -102,29 +99,18 @@ export default {
           to: '/admin/article',
           icon: 'newspaper-variant-multiple',
         },
-        // {title:"광고관리",to:"/admin/ad",icon:"bullhorn"},
         { title: '계정관리', to: '/admin/accout', icon: 'account-cog' },
-        // {title:"환경설정",to:"/admin/etc"},
       ],
       subMenu: [{ title: '기타관리', to: '/admin/configtext', icon: 'text' }],
-      thisUrl: '',
     };
   },
   async mounted() {
     await this.$store.dispatch('CHECK_AUTH');
   },
   methods: {
-    getUrl() {
-      this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7, 10);
-      if (this.thisUrl === 'www') {
-        this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      } else {
-        this.thisUrl = 'http://alldayfootball.co.kr/';
-      }
-    },
     async Logout() {
       const { data } = await logout();
+      this.$store.commit('setUserData', {});
       alert(data);
       location.href = '/';
     },
