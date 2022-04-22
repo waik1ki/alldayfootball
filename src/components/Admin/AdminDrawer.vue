@@ -23,17 +23,16 @@
           color="rgba(88,211,88,.17)"
           rounded="circle"
         >
-          <v-img height="100%" width="100%" :src="userData.photo"></v-img>
+          <v-img height="100%" width="100%" :src="user.photo"></v-img>
         </v-card>
       </v-col>
       <v-col class="d-flex justify-center" cols="12">
         <p class="subText" style="color:white;">
-          {{ userData.name
-          }}<span class="ml-5 listTinyText">{{ userData.id }}</span>
+          {{ user.name }}<span class="ml-5 listTinyText">{{ user.id }}</span>
         </p>
       </v-col>
       <v-col class="d-flex justify-center my-5" cols="12">
-        <v-btn @click="logout" color="white" outlined
+        <v-btn @click="Logout" color="white" outlined
           ><v-icon>mdi-logout</v-icon>로그아웃</v-btn
         >
       </v-col>
@@ -88,12 +87,15 @@
 </template>
 
 <script>
+// import { check } from '@/api/auth';
+import { mapState } from 'vuex';
+import { logout } from '@/api/auth';
+
 import axios from 'axios';
 axios.defaults.headers['Pragma'] = 'no-cache';
 export default {
   data() {
     return {
-      userData: { name: '', id: '', photo: '' },
       menuList: [
         {
           title: '기사관리',
@@ -108,22 +110,8 @@ export default {
       thisUrl: '',
     };
   },
-  created() {
-    this.getUrl();
-  },
-  mounted() {
-    axios.get(`${this.thisUrl}api/auth/check`).then(res => {
-      this.userData.name = res.data.info.name;
-      this.userData.id = res.data.info.id;
-      if (
-        res.data.info.photo === '' ||
-        res.data.info.photo === null ||
-        res.data.info.photo === undefined
-      )
-        this.userData.photo =
-          'https://kr.object.ncloudstorage.com/alldayfootball/defalut/defalut.png';
-      else this.userData.photo = res.data.info.photo;
-    });
+  async mounted() {
+    await this.$store.dispatch('CHECK_AUTH');
   },
   methods: {
     getUrl() {
@@ -135,13 +123,10 @@ export default {
         this.thisUrl = 'http://alldayfootball.co.kr/';
       }
     },
-    logout() {
-      axios.get(`${this.thisUrl}api/auth/logout`).then(res => {
-        if (res.data === 'logged_out') {
-          alert('로그아웃 되었습니다.');
-          location.href = '/';
-        }
-      });
+    async Logout() {
+      const { data } = await logout();
+      alert(data);
+      location.href = '/';
     },
     gotoList(to) {
       location.href = to;
@@ -151,6 +136,9 @@ export default {
     },
   },
   computed: {
+    ...mapState({
+      user: state => state.user,
+    }),
     DrawerWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':

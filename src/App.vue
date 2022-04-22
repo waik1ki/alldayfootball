@@ -1,5 +1,5 @@
 <template>
-  <div v-scroll="onScroll" class="screen">
+  <div class="screen">
     <v-app>
       <Header v-if="!isAdmin" />
       <v-main>
@@ -20,12 +20,6 @@ export default {
   components: {
     Header,
     Footer,
-  },
-  data() {
-    return {
-      scrollTop: 0,
-      adTop: 0,
-    };
   },
   mounted() {},
   computed: {
@@ -51,41 +45,6 @@ export default {
     isAdmin() {
       if (window.location.href.includes('admin')) return true;
       return false;
-    },
-  },
-
-  methods: {
-    onScroll() {
-      this.scrollTop = document.body.parentNode.scrollTop;
-    },
-  },
-  watch: {
-    scrollTop(oldVal, newVal) {
-      if (
-        this.$vuetify.breakpoint.mdAndDown ||
-        window.location.href.includes('admin') ||
-        window.location.href.includes('introduce')
-      )
-        return;
-      var footer =
-        document.getElementsByClassName('Footer')[0].getBoundingClientRect()
-          .top +
-        window.pageYOffset -
-        850;
-      if (newVal < 20) {
-        setTimeout(() => {
-          this.adTop = '0px';
-        }, 1);
-      }
-      if (newVal < footer) {
-        setTimeout(() => {
-          this.adTop = `${newVal + 25}px`;
-        }, 1);
-      } else {
-        setTimeout(() => {
-          this.adTop = `${footer - 25}px`;
-        }, 1);
-      }
     },
   },
 };

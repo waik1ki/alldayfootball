@@ -170,38 +170,8 @@ export default {
   },
   data() {
     return {
-      mainArt0: 0,
-      mainArt1: 1,
-      mainArt2: 2,
-      boardResult: [
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-        { title: '', seq: 0 },
-      ],
-      boardResultViews: [
-        { title: '', seq: 1, thumb: '' },
-        { title: '', seq: 2, thumb: '' },
-        { title: '', seq: 3, thumb: '' },
-        { title: '', seq: 4, thumb: '' },
-        { title: '', seq: 5, thumb: '' },
-      ],
-      boardResultMain: [
-        { title: '', seq: 1, thumb: '' },
-        { title: '', seq: 2, thumb: '' },
-        { title: '', seq: 3, thumb: '' },
-      ],
-      adList: [{ image: '' }],
-      headlineList: [{ title: '' }],
-      model: 0,
+      boardResult: [],
+      headlineList: [],
       reviewShow: false,
     };
   },
@@ -334,15 +304,9 @@ export default {
           return 'width: 300px; background-color: rgb(240,240,240)';
       }
     },
-    mainArt() {
-      return [this.mainArt0, this.mainArt1, this.mainArt2];
-    },
-  },
-  mounted() {
-    this.getAdList();
   },
   created() {
-    this.takeConfig();
+    this.takeBoard();
     this.getheadlineList();
   },
   methods: {
@@ -367,12 +331,6 @@ export default {
     getContent(content) {
       return content.split('\n').join('<br>');
     },
-    getAdList() {
-      axios.get('http://alldayfootball.co.kr/api/ad/find').then(res => {
-        this.adList = res.data;
-        // console.log(this.userList);
-      });
-    },
     getheadlineList() {
       axios.get('http://alldayfootball.co.kr/api/headline/find2').then(res => {
         this.headlineList = res.data[0].list;
@@ -380,20 +338,6 @@ export default {
         this.reviewShow = true;
         this.maskingName();
       });
-    },
-    takeConfig() {
-      axios
-        .post('http://alldayfootball.co.kr/api/config/findone', {
-          id: '60d8f5569d4b9d6bafe4205e',
-        })
-        .then(res => {
-          this.mainArt0 = res.data.info[0];
-          this.mainArt1 = res.data.info[1];
-          this.mainArt2 = res.data.info[2];
-          this.takeBoard();
-          // this.takeBoardViews();
-          // this.takeMainBoard();
-        });
     },
     takeBoard() {
       axios
@@ -413,96 +357,6 @@ export default {
           // this.findPretext();
         });
     },
-    // takeMainBoard(){
-    //   axios.post('http://alldayfootball.co.kr/api/board/findmain',{
-    //     mainArt: [this.mainArt0,this.mainArt1,this.mainArt2]
-    //     })
-    //     .then((res=>{
-    //       // this.boardResultMain = res.data;
-    //       for(var i = 0; i<3; i++){
-    //         for(var o = 0; o<3; o++){
-    //           if(res.data[i].seq==this.mainArt[o]){
-    //             this.boardResultMain[o] = res.data[i];
-    //             // console.log(res.data[i].seq,this.mainArt[o]);
-    //           }
-    //         }
-    //       }
-    //       this.findThumbMain();
-    //       }))
-    // },
-    takeBoardViews() {
-      axios
-        .post('http://alldayfootball.co.kr/api/board/takeboardviews', {
-          bNum: null,
-          limit: 5,
-          page: 1,
-          word: '',
-        })
-        .then(res => {
-          this.boardResultViews = res.data.docs;
-          this.findThumbViews();
-          this.findPretextViews();
-        });
-    },
-    // findThumb(){
-    //   for(var i = 0; i<this.boardResult.length; i++){
-    //       if(this.boardResult[i].contents.includes('<img')){
-    //       var tagIndex = this.boardResult[i].contents.indexOf('<img');
-    //       var tagSrcIndex = this.boardResult[i].contents.indexOf('src="',tagIndex+4);
-    //       var tagEndIndex = this.boardResult[i].contents.indexOf('"',tagSrcIndex+5);
-    //       this.boardResult[i].thumb = this.boardResult[i].contents.slice(tagSrcIndex+5,tagEndIndex);
-    //       }
-    //   }
-    // },
-    findThumbMain() {
-      for (var i = 0; i < this.boardResultMain.length; i++) {
-        if (this.boardResultMain[i].contents.includes('<img')) {
-          var tagIndex = this.boardResultMain[i].contents.indexOf('<img');
-          var tagSrcIndex = this.boardResultMain[i].contents.indexOf(
-            'src="',
-            tagIndex + 4,
-          );
-          var tagEndIndex = this.boardResultMain[i].contents.indexOf(
-            '"',
-            tagSrcIndex + 5,
-          );
-          this.boardResultMain[i].thumb = this.boardResultMain[
-            i
-          ].contents.slice(tagSrcIndex + 5, tagEndIndex);
-        }
-      }
-    },
-    findThumbViews() {
-      for (var i = 0; i < this.boardResultViews.length; i++) {
-        if (this.boardResultViews[i].contents.includes('<img')) {
-          var tagIndex = this.boardResultViews[i].contents.indexOf('<img');
-          var tagSrcIndex = this.boardResultViews[i].contents.indexOf(
-            'src="',
-            tagIndex + 4,
-          );
-          var tagEndIndex = this.boardResultViews[i].contents.indexOf(
-            '"',
-            tagSrcIndex + 5,
-          );
-          this.boardResultViews[i].thumb = this.boardResultViews[
-            i
-          ].contents.slice(tagSrcIndex + 5, tagEndIndex);
-        }
-      }
-    },
-    findPretextViews() {
-      for (var i = 0; i < this.boardResultViews.length; i++) {
-        this.boardResultViews[i].pretext =
-          this.boardResultViews[i].contents
-            .replace(/(<([^>]+)>|&nbsp;)/gi, ' ')
-            .slice(0, 200) + '...';
-      }
-    },
-    // findPretext(){
-    //     for(var i = 0; i<this.boardResult.length; i++){
-    //         this.boardResult[i].pretext = this.boardResult[i].contents.replace(/(<([^>]+)>|&nbsp;|@([^>]+)})/ig,'').slice(0,80)+('...');
-    //     }
-    // },
     goToView(num) {
       location.href = `/articleView?num=${num}`;
     },

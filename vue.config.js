@@ -1,7 +1,13 @@
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
-  transpileDependencies: ['vuetify','jodit-vue','jodit','vuex','vue-router'],
+  transpileDependencies: [
+    'vuetify',
+    'jodit-vue',
+    'jodit',
+    'vuex',
+    'vue-router',
+  ],
   // configureWebpack: {
   //     plugins: [new BundleAnalyzerPlugin()]
   // }

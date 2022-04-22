@@ -46,7 +46,7 @@
           align-self="center"
           cols="6"
         >
-          <v-btn @click="clickLogin">로그인</v-btn>
+          <v-btn @click="tryLogin">로그인</v-btn>
         </v-col>
         <v-col
           class="d-flex justify-center"
@@ -57,11 +57,13 @@
           <v-btn @click="clickLogout">로그아웃</v-btn>
         </v-col>
       </v-row>
+      <v-btn @click="checkAuth"></v-btn>
     </div>
   </div>
 </template>
 
 <script>
+import { check, login, logout } from '@/api/auth';
 import axios from 'axios';
 axios.defaults.headers['Pragma'] = 'no-cache';
 export default {
@@ -79,41 +81,23 @@ export default {
     });
   },
   methods: {
-    clickLogin() {
-      axios
-        .post('api/auth/login', {
+    async tryLogin() {
+      try {
+        const userData = {
           id: this.id,
           password: this.password,
-        })
-        .then(res => {
-          if (res.data === 'already_logged_in') {
-            alert('이미 로그인 되어있습니다.');
-            this.logged = true;
-            return;
-          }
-          if (res.data === 'logged_in') {
-            alert('로그인 되었습니다.');
-            this.logged = true;
-            location.replace('/admin');
-            return;
-          }
-          if (res.data === 'not_password') {
-            alert('비밀번호가 틀립니다.');
-            this.logged = false;
-            return;
-          }
-          alert('아이디를 다시 확인해주세요.');
-          this.logged = false;
-        });
+        };
+        await login(userData);
+        const { data } = await check();
+        this.$store.commit('setUserData', data.info);
+        this.$router.push('/admin');
+      } catch (error) {
+        console.log(error);
+      }
     },
-    clickLogout() {
-      axios.get('api/auth/logout').then(res => {
-        // console.log(res.data);
-        if (res.data === 'logged_out') {
-          alert('로그아웃 되었습니다.');
-          this.logged = false;
-        }
-      });
+    async Logout() {
+      const response = await logout();
+      console.log(response);
     },
   },
 };
