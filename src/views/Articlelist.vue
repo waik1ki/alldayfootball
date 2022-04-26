@@ -178,7 +178,7 @@
 </template>
 
 <script>
-import { fetchBoard } from '@/api/board';
+import { fetchBoards } from '@/api/board';
 import axios from 'axios';
 axios.defaults.headers['Pragma'] = 'no-cache';
 export default {
@@ -238,7 +238,7 @@ export default {
   },
   methods: {
     async takeBoard(Num) {
-      const { data } = await fetchBoard(Num, this.limit, this.page, '');
+      const { data } = await fetchBoards(Num, this.limit, this.page, '');
       this.boardResult = data.docs;
       this.bLength = data.totalDocs;
     },

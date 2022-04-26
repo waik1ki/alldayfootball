@@ -129,7 +129,7 @@
 
 <script>
 import Review from '@/components/Review.vue';
-import { fetchBoard } from '@/api/board';
+import { fetchBoards } from '@/api/board';
 import Subscribe from './Subscribe.vue';
 
 export default {
@@ -279,7 +279,7 @@ export default {
   },
   methods: {
     async takeBoard() {
-      const { data } = await fetchBoard(null, 12, 1, '');
+      const { data } = await fetchBoards(null, 12, 1, '');
       this.boardResult = data.docs;
     },
     goToView(num) {

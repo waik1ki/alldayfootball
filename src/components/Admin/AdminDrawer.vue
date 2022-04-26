@@ -104,13 +104,14 @@ export default {
       subMenu: [{ title: '기타관리', to: '/admin/configtext', icon: 'text' }],
     };
   },
-  async mounted() {
-    await this.$store.dispatch('CHECK_AUTH');
-  },
+  // async mounted() {
+  //   await this.$store.dispatch('CHECK_AUTH');
+  // },
   methods: {
     async Logout() {
       const { data } = await logout();
-      this.$store.commit('setUserData', {});
+      this.$store.commit('auth/setUserData', {});
+      this.$store.commit('auth/setLoggedData', false);
       alert(data);
       location.href = '/';
     },
@@ -123,7 +124,7 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.user,
+      user: state => state.auth.user,
     }),
     DrawerWidth() {
       switch (this.$vuetify.breakpoint.name) {

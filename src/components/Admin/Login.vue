@@ -29,7 +29,7 @@
       <v-row class="d-flex justify-center">
         <v-col v-if="!logged" cols="6">
           <v-text-field
-            @keydown.enter="clickLogin"
+            @keydown.enter="Login"
             type="password"
             v-model="password"
             hide-details
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { check, login, logout } from '@/api/auth';
+import { login, logout } from '@/api/auth';
 
 export default {
   data() {
@@ -80,8 +80,7 @@ export default {
           password: this.password,
         };
         await login(userData);
-        const { data } = await check();
-        this.$store.commit('setUserData', data.info);
+        await this.$store.dispatch('auth/CHECK_AUTH');
         this.$router.push('/admin');
       } catch (error) {
         console.log(error);
@@ -89,7 +88,7 @@ export default {
     },
     async Logout() {
       const response = await logout();
-      this.$store.commit('setUserData', {});
+      this.$store.commit('auth/setUserData', {});
       console.log(response);
     },
   },

@@ -4,7 +4,7 @@ function fetchReviews() {
   return instance.get('headline/find2');
 }
 
-function fetchBoard(bNum, limit, page, word) {
+function fetchBoards(bNum, limit, page, word) {
   return instance.post('board/takeboard', {
     bNum: bNum,
     limit: limit,
@@ -13,4 +13,14 @@ function fetchBoard(bNum, limit, page, word) {
   });
 }
 
-export { fetchBoard, fetchReviews };
+function fetchSortedBoards(bNum, limit, page, word, sort) {
+  return instance.post('board/takeboardsort', {
+    bNum: bNum,
+    limit: limit,
+    page: page,
+    word: word,
+    sort: sort,
+  });
+}
+
+export { fetchBoards, fetchSortedBoards, fetchReviews };

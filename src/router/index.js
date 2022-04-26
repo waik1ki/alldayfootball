@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import axios from 'axios';
-import { check } from '@/api/auth';
+import store from '@/store/index';
 axios.defaults.headers['Pragma'] = 'no-cache';
 
 Vue.use(VueRouter);
@@ -79,12 +79,6 @@ const router = new VueRouter({
           meta: { auth: true },
         },
         {
-          path: '/admin/ad',
-          name: 'Ad',
-          component: () => import('../components/Admin/Ad.vue'),
-          meta: { auth: true },
-        },
-        {
           path: '/admin/accout',
           name: 'Accout',
           component: () => import('../components/Admin/Account/Accout.vue'),
@@ -102,20 +96,14 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.name === 'Login') {
-    const { data } = await check();
-    if (data !== 'not_logged') {
-      next('/admin');
-      return;
-    }
+  if (to.meta.auth && !store.getters.isLogin) {
+    next('/login');
+    return;
   }
 
-  if (to.meta.auth) {
-    const { data } = await check();
-    if (data === 'not_logged') {
-      next('/login');
-      return;
-    }
+  if (to.name === 'Login' && store.getters.isLogin) {
+    next('/admin');
+    return;
   }
 
   next();

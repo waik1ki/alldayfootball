@@ -222,10 +222,8 @@ export default {
   },
   methods: {
     async fetchData() {
-      if (this.footer === {}) {
-        await this.$store.dispatch('FETCH_FOOTER_DATA');
-        this.isLoding = true;
-      } else this.isLoding = true;
+      await this.$store.dispatch('config/FETCH_FOOTER_DATA');
+      this.isLoding = true;
     },
     goto(r) {
       location.href = r;
