@@ -1,4 +1,4 @@
-import { fetchFooterData } from '@/api/config';
+import { fetchFooter } from '@/api/config';
 
 export default {
   namespaced: true,
@@ -17,8 +17,9 @@ export default {
   },
   actions: {
     async FETCH_FOOTER_DATA({ commit }) {
-      const { data } = await fetchFooterData();
+      const { data } = await fetchFooter();
       commit('setFooterData', data.info);
+      return data;
     },
   },
 };

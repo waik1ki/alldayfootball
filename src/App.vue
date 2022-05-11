@@ -1,7 +1,8 @@
 <template>
   <div class="screen">
     <v-app>
-      <Header v-if="!isAdmin" />
+      <admin-header v-if="isAdmin"></admin-header>
+      <app-header v-else></app-header>
       <v-main>
         <div>
           <router-view :style="{ width: ContentWidth }" />
@@ -13,12 +14,13 @@
 </template>
 
 <script>
-import Header from '@/components/Header/Header.vue';
+import AppHeader from '@/components/AppHeader.vue';
+import AdminHeader from '@/components/Admin/AdminHeader.vue';
 import Footer from '@/components/Footer.vue';
 export default {
-  name: 'App',
   components: {
-    Header,
+    AppHeader,
+    AdminHeader,
     Footer,
   },
   computed: {

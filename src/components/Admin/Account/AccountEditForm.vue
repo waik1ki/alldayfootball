@@ -92,11 +92,10 @@
           ><v-icon color="white">mdi-upload</v-icon>
           <p class="subText" style="color:white;">등록하기</p></v-btn
         >
-        <v-btn @click="remove(user.id)" color="#737373"
+        <v-btn @click="deleteUserData(user.id)" color="#737373"
           ><v-icon color="white">mdi-trash-can-outline</v-icon>
           <p class="subText" style="color:white;">삭제하기</p></v-btn
         >
-        <!-- <v-btn @click="closeDialog(1)" color="red"><v-icon color="white">mdi-close</v-icon><p class="subText" style="color:white;">취소</p></v-btn> -->
       </v-col>
     </v-row>
     <v-row v-if="$vuetify.mdAndDown" class="d-flex justify-center">
@@ -105,11 +104,10 @@
           ><v-icon color="white">mdi-upload</v-icon>
           <p class="subText" style="color:white;">등록</p></v-btn
         >
-        <v-btn x-small @click="remove(user.id)" color="#737373"
+        <v-btn x-small @click="deleteUserData(user.id)" color="#737373"
           ><v-icon color="white">mdi-trash-can-outline</v-icon>
           <p class="subText" style="color:white;">삭제</p></v-btn
         >
-        <!-- <v-btn x-small @click="closeDialog(1)" color="red"><v-icon color="white">mdi-close</v-icon><p class="subText" style="color:white;">취소</p></v-btn> -->
       </v-col>
     </v-row>
   </v-container>
@@ -185,7 +183,7 @@ export default {
       this.radio = 0;
       this.file = '';
     },
-    async remove(id) {
+    async deleteUserData(id) {
       const { data } = await deleteUser(id);
       this.responseAction(data);
       this.$emit('refresh');

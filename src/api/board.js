@@ -1,9 +1,5 @@
 import { instance } from './index';
 
-function fetchReviews() {
-  return instance.get('headline/find2');
-}
-
 function fetchBoards(bNum, limit, page, word) {
   return instance.post('board/takeboard', {
     bNum: bNum,
@@ -23,4 +19,4 @@ function fetchSortedBoards(bNum, limit, page, word, sort) {
   });
 }
 
-export { fetchBoards, fetchSortedBoards, fetchReviews };
+export { fetchBoards, fetchSortedBoards };

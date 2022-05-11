@@ -1,30 +1,28 @@
 <template>
   <div
-    style="background-color:rgba(0,0,0,.85); width:100vw; height:55px; position:absolute; left:0; top:0;"
+    style="background-color:rgba(0,0,0,.85); width:100vw; height:55px;"
     class="AdminHeader"
   >
     <v-row class="fill-height" no-gutters>
       <v-col cols="12" class="d-flex align-center">
         <v-app-bar-nav-icon
-          v-if="this.$vuetify.breakpoint.mdAndDown"
+          v-if="this.$vuetify.breakpoint.mdAndDown && isAdminLocation"
           class="mx-2"
           color="white"
           @click="OpenAdminDrawer"
         ></v-app-bar-nav-icon>
-        <v-card
-          @click="toHome"
+        <div
+          v-else
+          @click="toHome()"
           class="d-flex align-center"
-          height="50%"
-          elevation="0"
-          rounded="0"
-          color="transparent"
+          style="height: 30px; cursor: pointer;"
         >
           <v-img
             height="100%"
             contain
             src="@/assets/logo_size_down.png"
           ></v-img>
-        </v-card>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -35,8 +33,15 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    isAdminLocation() {
+      return window.location.href.includes('admin');
+    },
+  },
   methods: {
     OpenAdminDrawer() {
+      console.log(window.location.href.includes('admin'));
+      console.log(this.$vuetify.breakpoint.mdAndDown);
       this.$store.commit(
         'set_adminDrawerBool',
         !this.$store.state.adminDrawerBool,

@@ -134,7 +134,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('../../assets/css/unify.css');
+@import url('../assets/css/unify.css');
 </style>
 
 <style>

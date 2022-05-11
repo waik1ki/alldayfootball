@@ -5,7 +5,6 @@
     v-model="adminDrawerBool"
     color="rgba(0,0,0,.85)"
     id="Admindrawer"
-    style="top:55px; z-index:3;"
     :width="DrawerWidth"
   >
     <v-row no-gutters>

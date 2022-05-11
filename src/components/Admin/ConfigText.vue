@@ -279,7 +279,7 @@
               </v-row>
               <v-row>
                 <v-col class="d-flex justify-center" cols="12">
-                  <v-btn class="ma-3" @click="clickEdit" color="#509F3F"
+                  <v-btn class="ma-3" @click="updateFooterData" color="#509F3F"
                     ><v-icon color="white">mdi-upload</v-icon>
                     <p class="subText" style="color:white;">수정하기</p></v-btn
                   >
@@ -309,15 +309,14 @@
                   ></v-text-field>
                   <v-text-field
                     hide-details
-                    v-model="reviewAuthor"
+                    v-model="author"
                     label="작성자"
                     solo
                     class="mb-2"
                   ></v-text-field>
                   <v-textarea
-                    @keypress.enter="clickSearch"
                     hide-details
-                    v-model="headlineTitle"
+                    v-model="title"
                     label="후기를 작성해주세요."
                     solo
                     class="mb-2"
@@ -325,7 +324,7 @@
                   <div class="d-flex" style="width: 100%">
                     <v-btn
                       class="ml-auto px-2"
-                      @click="writeheadline"
+                      @click="writeReview"
                       color="#0C9045"
                     >
                       <p style="color:white;">등록</p></v-btn
@@ -339,6 +338,7 @@
                   <p class="mainSubText">구독자 후기</p>
                 </v-col>
               </v-row>
+
               <div v-if="!this.$vuetify.breakpoint.mdAndDown">
                 <v-row style="text-align:center;" class="mt-5" no-gutters>
                   <v-col
@@ -388,7 +388,7 @@
                 <v-row
                   style="text-align:center;border-bottom:1px solid rgba(0,0,0,.2);"
                   no-gutters
-                  v-for="(i, index) in headlineList"
+                  v-for="(i, index) in reviews"
                   :key="index"
                 >
                   <v-col class="py-2" cols="1">
@@ -423,7 +423,7 @@
                         height="19px"
                         min-width="28px"
                         class="mx-auto px-2"
-                        @click="openEdit(headlineList[index])"
+                        @click="openReviewEditForm(i)"
                         >수정</v-btn
                       >
                       <v-btn
@@ -432,7 +432,7 @@
                         height="19px"
                         min-width="28px"
                         class="mx-auto px-2"
-                        @click="remove(headlineList[index]._id)"
+                        @click="deleteReviewData(i._id)"
                         >삭제</v-btn
                       >
                     </div>
@@ -447,10 +447,10 @@
                           <v-col cols="8">
                             <v-container class="max-width">
                               <v-pagination
-                                v-model="hPage"
+                                v-model="page"
                                 class="my-4"
                                 color="#0C9045"
-                                :length="hpLength"
+                                :length="pageLength"
                               ></v-pagination>
                             </v-container>
                           </v-col>
@@ -510,7 +510,7 @@
                 <v-row
                   style="text-align:center;border-bottom:1px solid rgba(0,0,0,.2);"
                   no-gutters
-                  v-for="(i, index) in headlineList"
+                  v-for="(i, index) in reviews"
                   :key="index"
                 >
                   <v-col class="py-2" cols="1">
@@ -545,7 +545,7 @@
                         height="19px"
                         min-width="28px"
                         class="mx-auto px-2"
-                        @click="openEdit(headlineList[index])"
+                        @click="openReviewEditForm(i)"
                         >수정</v-btn
                       >
                       <v-btn
@@ -554,7 +554,7 @@
                         height="19px"
                         min-width="28px"
                         class="mx-auto px-2"
-                        @click="remove(headlineList[index]._id)"
+                        @click="deleteReviewData(i._id)"
                         >삭제</v-btn
                       >
                     </div>
@@ -569,10 +569,10 @@
                           <v-col cols="8">
                             <v-container class="max-width">
                               <v-pagination
-                                v-model="hPage"
+                                v-model="Page"
                                 class="my-4"
                                 color="#0C9045"
-                                :length="hpLength"
+                                :length="pageLength"
                               ></v-pagination>
                             </v-container>
                           </v-col>
@@ -583,194 +583,15 @@
                 </v-row>
               </div>
 
-              <v-dialog v-model="dialog2" :width="dialogWidth">
-                <v-container style="background-color: #FBFBFB;">
-                  <v-row>
-                    <v-col class="black d-flex align-center" cols="12" lg="12">
-                      <p class="sliderTitleText" style="color:white;">
-                        후기 수정
-                      </p>
-                      <v-btn @click="dialog2 = !dialog2" class="ml-auto" icon
-                        ><v-icon color="white">mdi-close</v-icon></v-btn
-                      >
-                    </v-col>
-                  </v-row>
-                  <v-row class="d-flex justify-center mt-8">
-                    <v-col cols="12" lg="2">
-                      <p class="sliderTitleText" style="color:black;">제목</p>
-                    </v-col>
-                    <v-col cols="12" lg="6">
-                      <v-text-field
-                        v-model="editTitle"
-                        hide-details
-                        label="ID"
-                        solo
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-
-                  <v-row
-                    v-if="!$vuetify.mdAndDown"
-                    class="d-flex justify-center"
-                  >
-                    <v-col
-                      class="d-flex justify-space-around"
-                      cols="12"
-                      lg="12"
-                    >
-                      <v-btn @click="edit" color="#509F3F"
-                        ><v-icon color="white">mdi-upload</v-icon>
-                        <p class="subText" style="color:white;">
-                          수정하기
-                        </p></v-btn
-                      >
-                      <!-- <v-btn @click="closeDialog(1)" color="red"><v-icon color="white">mdi-close</v-icon><p class="subText" style="color:white;">취소</p></v-btn> -->
-                    </v-col>
-                  </v-row>
-
-                  <v-row
-                    v-if="$vuetify.mdAndDown"
-                    class="d-flex justify-center"
-                  >
-                    <v-col
-                      class="d-flex justify-space-around"
-                      cols="12"
-                      lg="12"
-                    >
-                      <v-btn x-small @click="edit" color="#509F3F"
-                        ><v-icon color="white">mdi-upload</v-icon>
-                        <p class="subText" style="color:white;">수정</p></v-btn
-                      >
-                      <!-- <v-btn x-small @click="closeDialog(1)" color="red"><v-icon color="white">mdi-close</v-icon><p class="subText" style="color:white;">취소</p></v-btn> -->
-                    </v-col>
-                  </v-row>
-                </v-container>
+              <v-dialog v-model="editDialog" :width="dialogWidth">
+                <review-edit-form
+                  @close="editDialog = false"
+                  @refresh="fetchReviewsData"
+                  :editData="propsEditData"
+                ></review-edit-form>
               </v-dialog>
             </v-expansion-panel-content>
           </v-expansion-panel>
-
-          <!-- <v-expansion-panel class="my-5">
-                <v-expansion-panel-header><p class="mainSubText">메인기사 지정</p></v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <v-row class="mt-5 d-flex align-center" no-gutters>
-                        <v-col class="mx-5" lg="2" cols="12">
-                            <p class="sliderTitleText">첫번째 기사:</p>
-                        </v-col>
-                        <v-col cols="auto">
-                            <v-text-field solo v-model="mainArt0" label="첫번째 기사" hide-details></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row class="mt-5 d-flex align-center" no-gutters>
-                        <v-col class="mx-5" lg="2" cols="12">
-                            <p class="sliderTitleText">두번째 기사:</p>
-                        </v-col>
-                        <v-col cols="auto">
-                            <v-text-field solo v-model="mainArt1" label="두번째 기사" hide-details></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row class="mt-5 d-flex align-center" no-gutters>
-                        <v-col class="mx-5" lg="2" cols="12">
-                            <p class="sliderTitleText">세번째 기사:</p>
-                        </v-col>
-                        <v-col cols="auto">
-                            <v-text-field solo v-model="mainArt2" label="세번째 기사" hide-details></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col class="d-flex justify-center" cols="12">
-                            <v-btn class="ma-3" @click="clickEdit2" color="#509F3F"><v-icon color="white">mdi-upload</v-icon><p class="subText" style="color:white;">수정하기</p></v-btn>
-                        </v-col>
-                    </v-row>
-                </v-expansion-panel-content>
-                </v-expansion-panel> -->
-
-          <!-- <v-expansion-panel class="my-5">
-                <v-expansion-panel-header><p class="mainSubText">메뉴문구 수정</p></v-expansion-panel-header>
-                <v-expansion-panel-content>
-                    <div :style="{width:HeaderWidth}" class="Header mx-auto">
-                        <v-row no-gutters>
-                            <v-col cols="12">
-                                <v-card rounded="0" v-if="!this.$vuetify.breakpoint.mdAndDown" class="d-flex justify-center" height="55" width="100%" color="#0C9045">
-                                    <div class="d-flex mx-auto" v-for="(i,idx) in visibleMenuList" :key="idx">
-                                        <v-menu v-if="i.to==='subMenu'" open-on-hover offset-y>
-                                            <template v-slot:activator="{ on, attrs }">
-                                                <v-tab :ripple="false" style="text-decoration: none;" to="/Articlelist?name=k1" class="d-flex align-center justify-center" v-bind="attrs" v-on="on">
-                                                    <p style="color:white;" class="headerText">{{i.title}}<v-icon small color="white">mdi-chevron-down</v-icon></p>
-                                                </v-tab>
-                                            </template>
-                                            <v-list :rounded="false" color="#0C9045">
-                                                <v-list-item v-for="(i, index) in i.subMenu" :key="index">
-                                                    <v-card class="px-3" :rounded="false" elevation="0" color="#0C9045" height="100%" width="100%" :to="i.to">
-                                                        <p style="text-align:center; color:white;" class="headerText">{{ i.title }}</p>
-                                                    </v-card>
-                                                </v-list-item>
-                                            </v-list>
-                                        </v-menu>
-                                        <v-tab v-if="i.to!=='subMenu' && i.visible===true" style="text-decoration: none;" :ripple="false" :to="i.to" class="d-flex align-center pa-0 mx-auto">
-                                            <p style="color:white;" class="headerText">{{i.title}}</p>
-                                        </v-tab>
-                                    </div>
-                                    <v-tab style="text-decoration: none;" :ripple="false" @click="toShop" class="d-flex align-center pa-0 mx-auto">
-                                        <p style="color:white;" class="headerText">쇼핑몰</p>
-                                    </v-tab>
-                                    <div class="d-flex align-center pt-1 px-3">
-                                        <v-text-field @keypress.enter="clickSearch" v-model="search" label="검색" height="35" background-color="white" solo hide-details>
-                                            <template v-slot:append-outer>
-                                                <v-btn color="white" @click="clickSearch" class="pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
-                                            </template>
-                                        </v-text-field>
-                                    </div>
-                                </v-card>
-                                <v-card v-if="this.$vuetify.breakpoint.mdAndDown" class="d-flex justify-space-around" height="55" color="#0C9045">
-                                    <v-app-bar-nav-icon class="my-auto ml-2" color="white" @click="OpenDrawer"></v-app-bar-nav-icon>
-                                    <v-spacer></v-spacer>
-                                    <div class="d-flex align-center pt-1">
-                                        <v-text-field @keypress.enter="clickSearch" v-model="search" label="검색" height="35" background-color="white" solo hide-details>
-                                            <template v-slot:append-outer>
-                                                <v-btn small color="white" @click="clickSearch" class="mr-2 pb-2" icon><v-icon>mdi-magnify</v-icon></v-btn>
-                                            </template>
-                                        </v-text-field>
-                                    </div>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </div>
-                    <v-row v-for ="(i,idx) in menuList" :key="idx" class="mt-15 d-flex align-center" no-gutters>
-                        <v-col class="mx-5 d-flex align-center justify-center" lg="2" cols="12">
-                            <p class="sliderTitleText">메뉴{{idx}} : </p>
-                            <v-checkbox
-                            v-model="i.visible"
-                            :label="`${i.visible.toString()}`"
-                            class="ml-1"
-                            ></v-checkbox>
-                        </v-col>
-                        <v-col cols="auto">
-                            <div class="d-flex">
-                                <v-text-field solo v-model="i.title" label="menu1" hide-details></v-text-field>
-                            </div>
-                            <div class="mt-2 mb-10" v-if="i.to==='subMenu'">
-                                <p class="sliderTitleText my-2">하단 드랍메뉴▼</p>
-                                <div class="d-flex my-1" v-for="(i,idx) in i.subMenu" :key="idx">
-                                    <v-text-field class="mr-1" solo v-model="i.title" label="menu1" hide-details></v-text-field>
-                                    <div style="width: 70px">
-                                        <v-checkbox
-                                        v-model="i.visible"
-                                        :label="`${i.visible.toString()}`"
-                                        class="ml-1"
-                                        ></v-checkbox>
-                                    </div>
-                                </div>
-                            </div>
-                        </v-col>
-                    </v-row>
-
-                    <v-row>
-                        <v-col class="d-flex justify-center" cols="12">
-                            <v-btn class="ma-3" @click="clickEdit3" color="#509F3F"><v-icon color="white">mdi-upload</v-icon><p class="subText" style="color:white;">수정하기</p></v-btn>
-                        </v-col>
-                    </v-row>
-                </v-expansion-panel-content>
-                </v-expansion-panel> -->
         </v-expansion-panels>
       </v-col>
     </v-row>
@@ -778,449 +599,111 @@
 </template>
 
 <script>
-import axios from 'axios';
-axios.defaults.headers['Pragma'] = 'no-cache';
-// import ConfigEdit from '@/components/Admin/ConfigEdit'
+import { postReview, paginationReviews, deleteReview } from '@/api/review';
+import { updateFooter } from '@/api/config';
+
+import ReviewEditForm from './ReviewEditForm.vue';
 export default {
   components: {
-    // ConfigEdit,
+    ReviewEditForm,
   },
   data() {
     return {
-      panel: [0],
+      panel: [],
+
+      // 푸터 데이터
       email: '',
       tel: '',
       pub: '',
       edi: '',
       pol: '',
       add: '',
-      mainArt0: 0,
-      mainArt1: 1,
-      mainArt2: 2,
-      menuList: [],
-      visibleMenuList: [],
 
-      row: 'regTime',
-      search: '',
-      titleCheck: true,
-      contentCheck: true,
-      bLength: 0,
-      hbLength: 0,
-      newHeadline: [],
-      boardResult: [],
-      dragResult: [],
-      headlineTitle: '',
-      editID: '',
-      editTitle: '',
-      author: null,
-      reviewAuthor: null,
-      nickName: null,
-      saveBtn: false,
-      dialog2: false,
-      headlineList: [{ author: '' }, { title: '' }],
-      HLList: [],
+      // 리뷰 데이터
+      nickName: '',
+      author: '',
+      title: '',
+      reviews: [],
+
+      // 리뷰 페이지 네이션
+      totalReviewLength: 0,
       page: 1,
-      hPage: 1,
-      thisUrl: '',
 
-      category: [
-        'k1',
-        'k2',
-        'k3',
-        'k4',
-        'k5',
-        '인터뷰',
-        '스포츠칼럼',
-        'K리그결과',
-      ],
-      select: [
-        'k1',
-        'k2',
-        'k3',
-        'k4',
-        'k5',
-        '인터뷰',
-        '스포츠칼럼',
-        'K리그결과',
-      ],
+      // 리뷰 수정 팝업 데이터
+      propsEditData: {},
+      editDialog: false,
     };
   },
   created() {
-    this.getUrl();
-    this.getConfig();
-    // this.getheadlineList();
-    this.takeBoard();
-    this.findPagination();
-    this.getHLList();
-  },
-  mounted() {
-    this.panel = [];
-    axios.get(`${this.thisUrl}api/auth/check`).then(res => {
-      this.author = res.data.info.name;
-    });
+    this.fetchFooterData();
+    this.fetchReviewsData();
   },
   methods: {
-    getUrl() {
-      this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7, 10);
-      if (this.thisUrl === 'www') {
-        this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      } else {
-        this.thisUrl = 'http://alldayfootball.co.kr/';
+    async updateFooterData() {
+      const { data } = await updateFooter(this.info);
+      if (data === 'updated') {
+        await this.$store.dispatch('config/FETCH_FOOTER_DATA');
+        this.fetchFooterData();
+        alert('수정되었습니다.');
+        location.reload();
       }
-      this.getConfig();
     },
-    clickEdit() {
-      axios
-        .put(`${this.thisUrl}api/config/edit`, {
-          id: '60d6b0c44dcc9e16fc936574',
-          info: this.info,
-        })
-        .then(res => {
-          if (res.data === 'updated') {
-            alert('수정되었습니다.');
-            location.reload();
-          }
-        });
+    fetchFooterData() {
+      const footer = this.$store.state.config.footerData;
+      this.email = footer.email;
+      this.tel = footer.tel;
+      this.pub = footer.pub;
+      this.edi = footer.edi;
+      this.pol = footer.pol;
+      this.add = footer.add;
     },
-    clickEdit2() {
-      if (this.mainArt0 === '') {
-        alert('첫번째 기사를 지정해주세요.');
-        return;
+    async fetchReviewsData() {
+      const { data } = await paginationReviews(10, this.page);
+      console.log(data);
+      this.reviews = data.docs;
+      this.totalReviewLength = data.totalDocs;
+    },
+    initForm() {
+      this.nickName = '';
+      this.author = '';
+      this.title = '';
+    },
+    responseAction(data) {
+      switch (data) {
+        case 'uploaded':
+          alert('업로드 성공.');
+          this.initForm();
+          this.fetchReviewsData();
+          break;
+        case 'deleted':
+          alert('삭제되었습니다.');
+          this.fetchReviewsData();
+          break;
+        case 'not_logged':
+          alert('권한이 없습니다.');
+          break;
+        case 'not_admin':
+          alert('권한이 없습니다.');
+          break;
+        default:
+          alert('권한이 없습니다.');
+          break;
       }
-      if (this.mainArt1 === '') {
-        alert('두번째 기사를 지정해주세요.');
-        return;
-      }
-      if (this.mainArt2 === '') {
-        alert('세번째 기사를 지정해주세요.');
-        return;
-      }
-      var suc = true;
-      for (var i = 0; i < 3; i++) {
-        const cur = this.info2[i];
-        for (var o = i + 1; o < 3; o++) {
-          if (cur === this.info2[o]) {
-            suc = false;
-            break;
-          }
-        }
-        if (suc === false) break;
-      }
-      if (suc === false) {
-        alert('중복으로 지정할 수 없습니다.');
-        return;
-      }
-      axios
-        .put(`${this.thisUrl}api/config/edit`, {
-          id: '60d8f5569d4b9d6bafe4205e',
-          info: this.info2,
-        })
-        .then(res => {
-          if (res.data === 'updated') {
-            alert('수정되었습니다.');
-            location.reload();
-          }
-        });
     },
-    clickEdit3() {
-      axios
-        .put(`${this.thisUrl}api/config/edit`, {
-          id: '60e246fb2145564307fa6265',
-          info: this.menuList,
-        })
-        .then(res => {
-          if (res.data === 'updated') {
-            alert('수정되었습니다.');
-            location.reload();
-          }
-        });
+    async writeReview() {
+      const { data } = await postReview(this.nickName, this.author, this.title);
+      this.responseAction(data);
     },
-    getConfig() {
-      axios.get(`${this.thisUrl}api/config/find`).then(res => {
-        this.email = res.data[0].info.email;
-        this.tel = res.data[0].info.tel;
-        this.pub = res.data[0].info.pub;
-        this.edi = res.data[0].info.edi;
-        this.pol = res.data[0].info.pol;
-        this.add = res.data[0].info.add;
-        this.mainArt0 = res.data[1].info[0];
-        this.mainArt1 = res.data[1].info[1];
-        this.mainArt2 = res.data[1].info[2];
-        this.menuList = res.data[2].info;
-        for (var i = 0; i < this.menuList.length; i++) {
-          if (this.menuList[i].visible === true) {
-            this.visibleMenuList.push(this.menuList[i]);
-          }
-        }
-      });
+    openReviewEditForm(data) {
+      this.propsEditData = {
+        id: data._id,
+        title: data.title,
+      };
+      this.editDialog = true;
     },
-    saveResult() {
-      this.dragResult = this.HLList;
-      this.saveBtn = false;
-      this.headlineListWrite();
-      // console.log(this.dragResult);
-    },
-    dragBoardResult() {
-      this.saveBtn = true;
-
-      return (this.drag = true);
-    },
-    getheadlineList() {
-      axios.get(`${this.thisUrl}api/headline/find`).then(res => {
-        this.headlineList = res.data;
-        // console.log(this.userList);
-      });
-    },
-    getHLList() {
-      this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7, 10);
-      if (this.thisUrl === 'www') {
-        this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      } else {
-        this.thisUrl = 'http://alldayfootball.co.kr/';
-      }
-
-      axios.get(`${this.thisUrl}api/headline/find2`).then(res => {
-        this.HLList = res.data[0].list;
-        // console.log(this.HLList);
-      });
-    },
-    clickTitle(num) {
-      location.href = `/admin/edit?num=${num}`;
-    },
-    clickSearch() {
-      this.takeBoard();
-    },
-    takeBoard() {
-      this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7, 10);
-      if (this.thisUrl === 'www') {
-        this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      } else {
-        this.thisUrl = 'http://alldayfootball.co.kr/';
-      }
-
-      axios
-        .post(`${this.thisUrl}api/board/takeboardsort`, {
-          bNum: this.selectCode,
-          limit: 10,
-          page: this.page,
-          word: this.search,
-          sort: this.row,
-        })
-        .then(res => {
-          this.boardResult = res.data.docs;
-          this.bLength = res.data.totalDocs;
-        });
-    },
-    findPagination() {
-      this.thisUrl = window.location.href;
-      this.thisUrl = this.thisUrl.substring(7, 10);
-      if (this.thisUrl === 'www') {
-        this.thisUrl = 'http://www.alldayfootball.co.kr/';
-      } else {
-        this.thisUrl = 'http://alldayfootball.co.kr/';
-      }
-
-      axios
-        .post(`${this.thisUrl}api/headline/pagination`, {
-          limit: 10,
-          page: this.hPage,
-        })
-        .then(res => {
-          // console.log(res);
-          this.headlineList = res.data.docs;
-          this.hbLength = res.data.totalDocs;
-          // console.log(this.headlineList);
-          this.headlineList[0];
-        });
-    },
-    clickfindPagination() {
-      axios
-        .post(`${this.thisUrl}api/headline/pagination`, {
-          limit: 10,
-          page: this.hPage,
-        })
-        .then(res => {
-          // console.log(res);
-          this.headlineList = res.data.docs;
-          this.hbLength = res.data.totalDocs;
-          // console.log(this.headlineList);
-          if (this.HLList.length === 10) {
-            this.HLList.unshift(this.headlineList[0]);
-            this.HLList.pop();
-            this.dragUpdateHeadlineList(this.HLList);
-          } else {
-            this.HLList.unshift(this.headlineList[0]);
-            this.dragUpdateHeadlineList(this.HLList);
-          }
-        });
-    },
-    writeheadline() {
-      axios
-        .post(`${this.thisUrl}api/headline/write`, {
-          nickName: this.nickName,
-          author: this.reviewAuthor,
-          title: this.headlineTitle,
-        })
-        .then(res => {
-          // console.log(photoURL);
-          if (res.data === 'uploaded') {
-            this.clickfindPagination();
-            // alert('업로드');
-            this.headlineTitle = '';
-            this.reviewAuthor = '';
-            this.nickName = '';
-            return;
-          }
-          if (res.data === 'not_logged') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'not_admin') {
-            alert('권한이 없습니다.');
-            return;
-          }
-        });
-    },
-    headlineListWrite() {
-      axios
-        .post(`${this.thisUrl}api/headline/headlineListWrite`, {
-          list: this.dragResult,
-        })
-        .then(res => {
-          // console.log(photoURL);
-          if (res.data === 'uploaded') {
-            alert('업로드 성공.');
-            return;
-          }
-          if (res.data === 'not_logged') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'not_admin') {
-            alert('권한이 없습니다.');
-            return;
-          }
-        });
-    },
-    dragUpdateHeadlineList(data) {
-      axios
-        .put(`${this.thisUrl}api/headline/edit2`, {
-          id: '6109017fd09d248b448cae5a',
-          list: data,
-        })
-        .then(res => {
-          if (res.data === 'updated') {
-            alert('업로드 성공.');
-          }
-        });
-    },
-    dragHeadlineList() {
-      axios
-        .put(`${this.thisUrl}api/headline/edit2`, {
-          id: '6109017fd09d248b448cae5a',
-          list: this.HLList,
-        })
-        .then(res => {
-          if (res.data === 'updated') {
-            alert('수정되었습니다.');
-          }
-        });
-    },
-    edit() {
-      axios
-        .put(`${this.thisUrl}api/headline/edit`, {
-          id: this.editID,
-          title: this.editTitle,
-        })
-        .then(res => {
-          // console.log(photoURL);
-          if (res.data === 'updated') {
-            this.findPagination();
-            this.getHLList();
-            alert('업데이트 성공.');
-            this.editTitle = '';
-            return;
-          }
-          if (res.data === 'not_logged') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'not_admin') {
-            alert('권한이 없습니다.');
-            return;
-          }
-        });
-      this.dialog2 = false;
-    },
-    openEdit(data) {
-      this.editID = data._id;
-      this.editTitle = data.title;
-      this.dialog2 = true;
-    },
-    remove(data) {
-      axios
-        .post(`${this.thisUrl}api/headline/delete`, {
-          id: data,
-        })
-        .then(res => {
-          if (res.data === 'not_logged') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'not_admin') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'deleted') {
-            // this.findPagination();
-            // alert("삭제 되었습니다.");
-            return;
-          }
-        });
-      axios
-        .put(`${this.thisUrl}api/headline/delete2`, {
-          id: data,
-        })
-        .then(res => {
-          if (res.data === 'not_logged') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'not_admin') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'deleted') {
-            this.findPagination();
-            this.getHLList();
-            alert('삭제 되었습니다.');
-            return;
-          }
-        });
-    },
-    remove2(data) {
-      axios
-        .put(`${this.thisUrl}api/headline/delete2`, {
-          id: data,
-        })
-        .then(res => {
-          if (res.data === 'not_logged') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'not_admin') {
-            alert('권한이 없습니다.');
-            return;
-          }
-          if (res.data === 'deleted') {
-            this.findPagination();
-            alert('삭제 되었습니다.');
-            return;
-          }
-        });
+    async deleteReviewData(id) {
+      const { data } = await deleteReview(id);
+      this.responseAction(data);
     },
   },
   computed: {
@@ -1233,48 +716,6 @@ export default {
         pol: this.pol,
         add: this.add,
       };
-    },
-    info2() {
-      return [this.mainArt0, this.mainArt1, this.mainArt2];
-    },
-    selectCode() {
-      var sc = [];
-      if (this.category === this.select) return null;
-      for (var i = 0; i < this.select.length; i++) {
-        switch (this.select[i]) {
-          case this.category[0]:
-            sc[i] = 0;
-            break;
-          case this.category[1]:
-            sc[i] = 1;
-            break;
-          case this.category[2]:
-            sc[i] = 2;
-            break;
-          case this.category[3]:
-            sc[i] = 3;
-            break;
-          case this.category[4]:
-            sc[i] = 4;
-            break;
-          case this.category[5]:
-            sc[i] = 5;
-            break;
-          case this.category[6]:
-            sc[i] = 6;
-            break;
-          case this.category[7]:
-            sc[i] = 7;
-            break;
-          case this.category[8]:
-            sc[i] = 8;
-            break;
-          case this.category[9]:
-            sc[i] = 9;
-            break;
-        }
-      }
-      return sc;
     },
     dialogWidth() {
       switch (this.$vuetify.breakpoint.name) {
@@ -1292,16 +733,9 @@ export default {
           return '100%';
       }
     },
-    pLength() {
-      var quo = parseInt(this.bLength / 10);
-      var rem = this.bLength % 10;
-      if (quo === 0) return 1;
-      if (quo > 0 && rem === 0) return quo;
-      return quo + 1;
-    },
-    hpLength() {
-      var quo = parseInt(this.hbLength / 10);
-      var rem = this.hbLength % 10;
+    pageLength() {
+      var quo = parseInt(this.totalReviewLength / 10);
+      var rem = this.totalReviewLength % 10;
       if (quo === 0) return 1;
       if (quo > 0 && rem === 0) return quo;
       return quo + 1;
@@ -1309,16 +743,7 @@ export default {
   },
   watch: {
     page() {
-      this.takeBoard();
-    },
-    hPage() {
-      this.findPagination();
-    },
-    select() {
-      this.takeBoard();
-    },
-    row() {
-      this.takeBoard();
+      this.fetchReviewsData();
     },
   },
 };

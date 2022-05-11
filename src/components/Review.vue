@@ -32,7 +32,7 @@
 
 <script>
 import { Carousel3d, Slide } from 'vue-carousel-3d';
-import { fetchReviews } from '@/api/board';
+import { fetchReviews } from '@/api/review';
 
 export default {
   data() {
@@ -51,7 +51,7 @@ export default {
   methods: {
     async fetchReviewsData() {
       const { data } = await fetchReviews();
-      this.reviews = data[0].list;
+      this.reviews = data;
       this.isLoding = true;
     },
   },

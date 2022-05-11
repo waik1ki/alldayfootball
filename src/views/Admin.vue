@@ -1,20 +1,15 @@
 <template>
   <div :style="{ marginLeft: isMobile }" class="admin">
-    <AdminHeader />
     <AdminDrawer />
     <router-view class="mt-16" />
   </div>
 </template>
 
 <script>
-import AdminHeader from '@/components/Admin/AdminHeader.vue';
 import AdminDrawer from '@/components/Admin/AdminDrawer.vue';
+
 export default {
-  mounted() {
-    // this.$router.push('/admin/article');
-  },
   components: {
-    AdminHeader,
     AdminDrawer,
   },
   computed: {
