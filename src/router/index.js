@@ -63,19 +63,21 @@ const router = new VueRouter({
         {
           path: '/admin/write',
           name: 'Write',
-          component: () => import('../components/Admin/Write.vue'),
+          component: () =>
+            import('@/components/Admin/Article/ArticleWriteForm.vue'),
           meta: { auth: true },
         },
         {
           path: '/admin/edit',
           name: 'Edit',
-          component: () => import('../components/Admin/Edit.vue'),
+          component: () =>
+            import('@/components/Admin/Article/ArticleEditForm.vue'),
           meta: { auth: true },
         },
         {
           path: '/admin/article',
           name: 'Article',
-          component: () => import('../components/Admin/Article.vue'),
+          component: () => import('@/components/Admin/Article/Article.vue'),
           meta: { auth: true },
         },
         {

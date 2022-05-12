@@ -372,5 +372,5 @@ export default {
 </style>
 
 <style scoped>
-@import url('../../assets/css/unify.css');
+@import url('../../../assets/css/unify.css');
 </style>
