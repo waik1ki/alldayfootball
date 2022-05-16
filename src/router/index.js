@@ -10,86 +10,73 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'Main',
-      component: () => import('../views/Main.vue'),
+      component: () => import('@/views/MainPage.vue'),
     },
     {
       path: '/introduce',
-      name: 'Introduce',
-      component: () => import('../views/Introduce.vue'),
+      component: () => import('@/views/IntroducePage.vue'),
     },
     {
-      path: '/help',
-      name: 'Help',
-      component: () => import('../components/Help.vue'),
+      path: '/article/list',
+      component: () => import('@/views/Article/ArticleListPage.vue'),
     },
     {
-      path: '/policy',
-      name: 'Policy',
-      component: () => import('../components/Policy.vue'),
-    },
-    {
-      path: '/terms-of-use',
-      name: 'Terms',
-      component: () => import('../components/Terms.vue'),
-    },
-    {
-      path: '/privacy-policy',
-      name: 'PrivacyPolicy',
-      component: () => import('../components/PrivacyPolicy.vue'),
-    },
-    {
-      path: '/articleList',
-      name: 'Articlelist',
-      component: () => import('../views/Articlelist.vue'),
-    },
-    {
-      path: '/articleView',
-      name: 'Articleview',
-      component: () => import('../views/Articleview.vue'),
+      path: '/article/view',
+      component: () => import('@/views/Article/ArticleViewPage.vue'),
     },
     {
       path: '/login',
-      name: 'Login',
-      component: () => import('../components/Admin/Login.vue'),
+      component: () => import('@/views/LoginPage.vue'),
+    },
+    {
+      path: '/policy/youthpolicy',
+      component: () => import('@/views/Policy/YouthPolicyPage.vue'),
+    },
+    {
+      path: '/policy/service',
+      component: () => import('@/views/Policy/ServicePage.vue'),
+    },
+    {
+      path: '/policy/privacy',
+      component: () => import('@/views/Policy/PrivacyPage.vue'),
     },
     {
       // 로그인부분 오류 수정 예정
       path: '/admin',
-      name: 'Admin',
-      component: () => import('@/views/Admin.vue'),
+      component: () => import('@/views/Admin/AdminMainPage.vue'),
       meta: { auth: true },
       children: [
         {
-          path: '/admin/write',
-          name: 'Write',
+          path: 'write',
           component: () =>
-            import('@/components/Admin/Article/ArticleWriteForm.vue'),
+            import('@/components/Admin/Article/AdminArticleWriteForm.vue'),
           meta: { auth: true },
         },
         {
-          path: '/admin/edit',
-          name: 'Edit',
+          path: 'edit',
           component: () =>
-            import('@/components/Admin/Article/ArticleEditForm.vue'),
+            import('@/components/Admin/Article/AdminArticleEditForm.vue'),
           meta: { auth: true },
         },
         {
-          path: '/admin/article',
-          name: 'Article',
-          component: () => import('@/components/Admin/Article/Article.vue'),
+          path: 'article',
+          component: () =>
+            import('@/components/Admin/Article/AdminArticleList.vue'),
           meta: { auth: true },
         },
         {
-          path: '/admin/accout',
-          name: 'Accout',
-          component: () => import('../components/Admin/Account/Accout.vue'),
+          path: 'accout',
+          component: () => import('@/views/Admin/AdminAccountPage.vue'),
           meta: { auth: true },
         },
         {
-          path: '/admin/configtext',
-          name: 'Configtext',
-          component: () => import('../components/Admin/ConfigText.vue'),
+          path: 'review',
+          component: () => import('@/views/Admin/AdminReviewPage.vue'),
+          meta: { auth: true },
+        },
+        {
+          path: 'footer',
+          component: () => import('@/views/Admin/AdminFooterEditPage.vue'),
           meta: { auth: true },
         },
       ],
