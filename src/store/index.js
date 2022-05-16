@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+// import createPersistedState from 'vuex-persistedstate';
 import auth from '@/store/modules/auth';
 import config from '@/store/modules/config';
 
@@ -12,7 +12,7 @@ export default new Vuex.Store({
   },
   getters: {
     isLogin(state) {
-      return state.auth.isLogged;
+      return state.auth.user !== null;
     },
   },
   mutations: {
@@ -25,9 +25,10 @@ export default new Vuex.Store({
     auth,
     config,
   },
-  plugins: [
-    createPersistedState({
-      paths: ['config', 'auth'],
-    }),
-  ],
+  // plugins: [
+  //   createPersistedState({
+  //     paths: ['config'],
+  //     storage: window.sessionStorage,
+  //   }),
+  // ],
 });

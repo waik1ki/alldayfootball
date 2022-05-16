@@ -1,27 +1,37 @@
-import { check } from '@/api/auth';
+import { check, login, logout } from '@/api/auth';
+import {
+  saveUserToCookie,
+  getUserFromCookie,
+  deleteCookie,
+} from '@/utils/cookies';
 
 export default {
   namespaced: true,
   state: {
-    isLogged: false,
-    user: {},
+    user: getUserFromCookie() || null,
   },
   mutations: {
     setUserData(state, userData) {
       state.user = userData;
     },
-    setLoggedData(state, bool) {
-      state.isLogged = bool;
-    },
-    clearUser(state) {
-      state.user = {};
-    },
   },
   actions: {
-    async CHECK_AUTH({ commit }) {
-      const { data } = await check();
-      commit('setUserData', data.info);
-      commit('setLoggedData', data.success);
+    async LOGIN({ commit }, userData) {
+      const { data } = await login(userData);
+      if (data === 'logged_in') {
+        const { data } = await check();
+        commit('setUserData', data.info);
+        saveUserToCookie(JSON.stringify(data.info));
+      }
+      return data;
+    },
+    async LOGOUT({ commit }) {
+      const { data } = await logout();
+      if (data === 'logged_out') {
+        deleteCookie('adf_user');
+        deleteCookie('sid');
+        commit('setUserData', null);
+      }
       return data;
     },
   },

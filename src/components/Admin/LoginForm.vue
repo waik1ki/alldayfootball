@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { login, logout } from '@/api/auth';
+import { logout } from '@/api/auth';
 
 export default {
   data() {
@@ -79,16 +79,20 @@ export default {
           id: this.id,
           password: this.password,
         };
-        await login(userData);
-        await this.$store.dispatch('auth/CHECK_AUTH');
-        this.$router.push('/admin');
+
+        const data = await this.$store.dispatch('auth/LOGIN', userData);
+        if (data !== 'logged_in') {
+          alert(data);
+        } else {
+          this.$router.push('/admin');
+        }
       } catch (error) {
         console.log(error);
       }
     },
     async Logout() {
       const response = await logout();
-      this.$store.commit('auth/setUserData', {});
+      this.$store.commit('auth/setUserData', null);
       console.log(response);
     },
   },
