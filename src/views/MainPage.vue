@@ -9,7 +9,7 @@
       <v-col cols="12" class="pa-0">
         <div class="py-5" style="background-color: #F1F1F5; width: 100%;">
           <div :style="{ width: ContentWidth }" class="mx-auto">
-            <Review></Review>
+            <Review />
           </div>
         </div>
       </v-col>
@@ -128,9 +128,10 @@
 </template>
 
 <script>
-import Review from '@/components/Review.vue';
 import { fetchBoards } from '@/api/board';
-import Subscribe from './Subscribe.vue';
+
+import Review from '@/components/Review.vue';
+import Subscribe from '@/components/Subscribe.vue';
 
 export default {
   components: {
