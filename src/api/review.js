@@ -1,6 +1,6 @@
 import { instance } from '@/api/index';
 
-function postReview(nickName, author, title) {
+function createReview(nickName, author, title) {
   return instance.post('headline/write', {
     nickName: nickName,
     author: author,
@@ -34,7 +34,7 @@ function deleteReview(id) {
 }
 
 export {
-  postReview,
+  createReview,
   fetchReviews,
   paginationReviews,
   editReview,
