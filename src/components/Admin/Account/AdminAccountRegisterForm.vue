@@ -1,8 +1,8 @@
 <template>
-  <v-container style="background-color: #FBFBFB;">
-    <v-row>
+  <v-container style="background-color: #FBFBFB;" class="white">
+    <v-row class="mb-3">
       <v-col class="black d-flex align-center" cols="12" lg="12">
-        <p class="sliderTitleText" style="color:white;">관리자 정보 수정</p>
+        <p class="sliderTitleText" style="color:white;">관리자 등록</p>
         <v-btn @click="close" class="ml-auto" icon
           ><v-icon color="white">mdi-close</v-icon></v-btn
         >
@@ -13,13 +13,7 @@
         <p class="sliderTitleText" style="color:black;">ID</p>
       </v-col>
       <v-col cols="12" lg="6">
-        <v-text-field
-          v-model="id"
-          hide-details
-          :label="user.id"
-          disabled
-          solo
-        ></v-text-field>
+        <v-text-field hide-details label="ID" v-model="id" solo></v-text-field>
       </v-col>
     </v-row>
     <v-row class="d-flex justify-center">
@@ -28,9 +22,9 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-text-field
-          v-model="password"
           hide-details
-          :label="Password"
+          label="Password"
+          v-model="password"
           solo
         ></v-text-field>
       </v-col>
@@ -41,9 +35,9 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-text-field
-          v-model="name"
           hide-details
-          :label="user.name"
+          label="Name"
+          v-model="name"
           solo
         ></v-text-field>
       </v-col>
@@ -54,15 +48,15 @@
       </v-col>
       <v-col cols="12" lg="6">
         <v-text-field
-          v-model="email"
           hide-details
-          :label="user.email"
+          label="E-mail"
+          v-model="email"
           solo
         ></v-text-field>
       </v-col>
     </v-row>
     <v-row class="d-flex justify-center">
-      <v-col class="d-flex align-center" lg="2">
+      <v-col class="d-flex align-center" cols="12" lg="2">
         <p class="sliderTitleText" style="color:black;">구분</p>
       </v-col>
       <v-col cols="12" lg="6">
@@ -86,27 +80,11 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="!$vuetify.mdAndDown" class="d-flex justify-center">
-      <v-col class="d-flex justify-space-around" cols="12" lg="12">
-        <v-btn @click="edit" color="#509F3F"
+    <v-row class="d-flex justify-center">
+      <v-col class="d-flex justify-space-around mb-2" cols="12">
+        <v-btn @click="register" color="#509F3F"
           ><v-icon color="white">mdi-upload</v-icon>
           <p class="subText" style="color:white;">등록하기</p></v-btn
-        >
-        <v-btn @click="deleteUserData(user.id)" color="#737373"
-          ><v-icon color="white">mdi-trash-can-outline</v-icon>
-          <p class="subText" style="color:white;">삭제하기</p></v-btn
-        >
-      </v-col>
-    </v-row>
-    <v-row v-if="$vuetify.mdAndDown" class="d-flex justify-center">
-      <v-col class="d-flex justify-space-around" cols="12" lg="12">
-        <v-btn x-small @click="edit" color="#509F3F"
-          ><v-icon color="white">mdi-upload</v-icon>
-          <p class="subText" style="color:white;">등록</p></v-btn
-        >
-        <v-btn x-small @click="deleteUserData(user.id)" color="#737373"
-          ><v-icon color="white">mdi-trash-can-outline</v-icon>
-          <p class="subText" style="color:white;">삭제</p></v-btn
         >
       </v-col>
     </v-row>
@@ -115,14 +93,8 @@
 
 <script>
 import { imageUpload } from '@/api/storage';
-import { editUser, deleteUser } from '@/api/auth';
+import { registerUser } from '@/api/auth';
 export default {
-  props: {
-    user: {
-      type: Object,
-      require: true,
-    },
-  },
   data() {
     return {
       id: '',
@@ -134,7 +106,23 @@ export default {
     };
   },
   methods: {
-    async edit() {
+    async register() {
+      if (this.id === '') {
+        alert('id를 입력하세요');
+        return;
+      }
+      if (this.password === '') {
+        alert('비밀번호를 입력하세요');
+        return;
+      }
+      if (this.name === '') {
+        alert('이름을 입력하세요');
+        return;
+      }
+      if (this.email === '') {
+        alert('이메일을 입력하세요');
+        return;
+      }
       var photoURL = '';
       if (this.file != '') {
         const formData = new FormData();
@@ -142,30 +130,29 @@ export default {
         const { data } = await imageUpload(formData);
         photoURL = data.slice(0);
       }
-
       const userData = {
-        id: this.user.id,
+        id: this.id,
         name: this.name,
         email: this.email,
         photo: photoURL,
         password: this.password,
         superAdmin: this.radio === 0,
       };
-      const { data } = await editUser(userData);
+      const { data } = await registerUser(userData);
       this.responseAction(data);
       this.$emit('refresh');
     },
     responseAction(data) {
       switch (data) {
-        case 'updated':
-          alert('수정되었습니다.');
+        case 'registered':
+          alert('등록되었습니다.');
           this.initForm();
-          break;
-        case 'deleted':
-          alert('삭제되었습니다.');
           break;
         case 'not_logged':
           alert('권한이 없습니다.');
+          break;
+        case 'id_exists':
+          alert('이미 등록된 ID입니다.');
           break;
         case 'not_admin':
           alert('권한이 없습니다.');
@@ -182,11 +169,6 @@ export default {
       this.password = '';
       this.radio = 0;
       this.file = '';
-    },
-    async deleteUserData(id) {
-      const { data } = await deleteUser(id);
-      this.responseAction(data);
-      this.$emit('refresh');
     },
     close() {
       this.$emit('close');

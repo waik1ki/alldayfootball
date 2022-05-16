@@ -58,31 +58,31 @@
       </v-col>
     </v-row>
     <v-dialog v-model="registerDialog" :width="dialogWidth">
-      <AccountRegisterForm
+      <admin-account-register-form
         @refresh="fetchUserData"
         @close="registerDialog = false"
-      ></AccountRegisterForm>
+      ></admin-account-register-form>
     </v-dialog>
 
     <v-dialog v-model="editDialog" :width="dialogWidth">
-      <AccountEditForm
+      <admin-account-edit-form
         :user="propData"
         @refresh="fetchUserData"
         @close="editDialog = false"
-      ></AccountEditForm>
+      ></admin-account-edit-form>
     </v-dialog>
   </div>
 </template>
 
 <script>
 import { fetchUsers } from '@/api/auth';
-import AccountRegisterForm from './AccountRegisterForm.vue';
-import AccountEditForm from './AccountEditForm.vue';
+import AdminAccountRegisterForm from './AdminAccountRegisterForm.vue';
+import AdminAccountEditForm from './AdminAccountEditForm.vue';
 
 export default {
   components: {
-    AccountRegisterForm,
-    AccountEditForm,
+    AdminAccountRegisterForm,
+    AdminAccountEditForm,
   },
   data() {
     return {
