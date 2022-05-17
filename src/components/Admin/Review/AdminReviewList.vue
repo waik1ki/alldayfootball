@@ -120,9 +120,9 @@
 </template>
 
 <script>
-import { paginationReviews, deleteReview } from '@/api/review';
-import AdminReviewWriteForm from './AdminReviewWriteForm.vue';
-import AdminReviewEditForm from './AdminReviewEditForm.vue';
+import { paginationReviews } from '@/api/review';
+import AdminReviewWriteForm from '@/components/admin/review/AdminReviewWriteForm.vue';
+import AdminReviewEditForm from '@/components/admin/review/AdminReviewEditForm.vue';
 
 export default {
   components: { AdminReviewWriteForm, AdminReviewEditForm },
@@ -152,34 +152,6 @@ export default {
       this.editDialog = false;
       this.writeDialog = false;
     },
-    initForm() {
-      this.nickName = '';
-      this.author = '';
-      this.title = '';
-    },
-    responseAction(data) {
-      switch (data) {
-        case 'uploaded':
-          alert('업로드 성공.');
-          this.initForm();
-          this.fetchReviewsData();
-          break;
-        case 'deleted':
-          alert('삭제되었습니다.');
-          this.fetchReviewsData();
-          break;
-        case 'not_logged':
-          alert('권한이 없습니다.');
-          break;
-        case 'not_admin':
-          alert('권한이 없습니다.');
-          break;
-        default:
-          alert('권한이 없습니다.');
-          break;
-      }
-    },
-
     openReviewEditForm(data) {
       this.propsEditData = {
         id: data._id,
@@ -189,22 +161,8 @@ export default {
       };
       this.editDialog = true;
     },
-    async deleteReviewData(id) {
-      const { data } = await deleteReview(id);
-      this.responseAction(data);
-    },
   },
   computed: {
-    info() {
-      return {
-        email: this.email,
-        tel: this.tel,
-        pub: this.pub,
-        edi: this.edi,
-        pol: this.pol,
-        add: this.add,
-      };
-    },
     dialogWidth() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AdminReviewList from '@/components/Admin/Review/AdminReviewList.vue';
+import AdminReviewList from '@/components/admin/review/AdminReviewList.vue';
 export default {
   components: { AdminReviewList },
 };

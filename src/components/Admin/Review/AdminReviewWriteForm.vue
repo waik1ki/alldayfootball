@@ -60,8 +60,10 @@
 
 <script>
 import { createReview } from '@/api/review';
+import Methods_ResponseAction from '@/mixins/review/Methods_ResponseAction';
 
 export default {
+  mixins: [Methods_ResponseAction],
   data() {
     return {
       nickName: '',
@@ -78,24 +80,6 @@ export default {
       };
       const { data } = await createReview(reviewData);
       this.responseAction(data);
-    },
-    responseAction(data) {
-      switch (data) {
-        case 'uploaded':
-          alert('업로드 성공.');
-          this.initForm();
-          this.$emit('refresh');
-          break;
-        case 'not_logged':
-          alert('권한이 없습니다.');
-          break;
-        case 'not_admin':
-          alert('권한이 없습니다.');
-          break;
-        default:
-          alert('권한이 없습니다.');
-          break;
-      }
     },
     initForm() {
       this.nickName = '';

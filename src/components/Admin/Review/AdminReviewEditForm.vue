@@ -62,33 +62,15 @@
         >
       </v-col>
     </v-row>
-    <!-- 
-    <v-row v-if="!$vuetify.mdAndDown" class="d-flex justify-center">
-      <v-col class="d-flex justify-space-around" cols="12" lg="12">
-        <v-btn @click="edit" color="#509F3F"
-          ><v-icon color="white">mdi-upload</v-icon>
-          <p class="subText" style="color:white;">
-            수정하기
-          </p></v-btn
-        >
-      </v-col>
-    </v-row>
-
-    <v-row v-if="$vuetify.mdAndDown" class="d-flex justify-center">
-      <v-col class="d-flex justify-space-around" cols="12" lg="12">
-        <v-btn x-small @click="edit" color="#509F3F"
-          ><v-icon color="white">mdi-upload</v-icon>
-          <p class="subText" style="color:white;">수정</p></v-btn
-        >
-      </v-col>
-    </v-row> -->
   </v-container>
 </template>
 
 <script>
 import { editReview, deleteReview } from '@/api/review';
+import Methods_ResponseAction from '@/mixins/review/Methods_ResponseAction';
 
 export default {
+  mixins: [Methods_ResponseAction],
   props: {
     editData: Object,
   },
@@ -106,29 +88,6 @@ export default {
     },
   },
   methods: {
-    responseAction(data) {
-      switch (data) {
-        case 'updated':
-          alert('업데이트 성공.');
-          this.$emit('refresh');
-          this.$emit('close');
-          break;
-        case 'deleted':
-          alert('삭제되었습니다.');
-          this.$emit('refresh');
-          this.$emit('close');
-          break;
-        case 'not_logged':
-          alert('권한이 없습니다.');
-          break;
-        case 'not_admin':
-          alert('권한이 없습니다.');
-          break;
-        default:
-          alert('권한이 없습니다.');
-          break;
-      }
-    },
     async editReviewData() {
       const { data } = await editReview(this.editData.id, this.title);
       this.responseAction(data);
