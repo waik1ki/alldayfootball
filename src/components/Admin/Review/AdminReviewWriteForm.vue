@@ -71,11 +71,12 @@ export default {
   },
   methods: {
     async createReviewData() {
-      const { data } = await createReview(
-        this.nickName,
-        this.author,
-        this.title,
-      );
+      const reviewData = {
+        nickName: this.nickName,
+        author: this.author,
+        title: this.title,
+      };
+      const { data } = await createReview(reviewData);
       this.responseAction(data);
     },
     responseAction(data) {

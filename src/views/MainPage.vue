@@ -280,7 +280,13 @@ export default {
   },
   methods: {
     async takeBoard() {
-      const { data } = await fetchBoards(null, 12, 1, '');
+      const boradData = {
+        bNum: null,
+        limit: 12,
+        page: 1,
+        word: '',
+      };
+      const { data } = await fetchBoards(boradData);
       this.boardResult = data.docs;
     },
     goToView(num) {

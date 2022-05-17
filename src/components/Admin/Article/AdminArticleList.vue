@@ -371,13 +371,15 @@ export default {
       this.editDialog = true;
     },
     async fetchBoards() {
-      const { data } = await fetchSortedBoards(
-        this.selectCode,
-        10,
-        this.page,
-        this.search,
-        this.row,
-      );
+      const boardData = {
+        bNum: this.selectCode,
+        limit: 10,
+        page: this.page,
+        word: this.search,
+        sort: this.row,
+      };
+
+      const { data } = await fetchSortedBoards(boardData);
       this.boards = data.docs;
       this.bLength = data.totalDocs;
 

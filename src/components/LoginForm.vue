@@ -8,7 +8,7 @@
               width="100%"
               height="100%"
               contain
-              src="../../assets/logo/logo.png"
+              src="../assets/logo/logo.png"
             ></v-img>
           </v-card>
         </v-col>
@@ -100,5 +100,5 @@ export default {
 </script>
 
 <style scoped>
-@import url('../../assets/css/unify.css');
+@import url('../assets/css/unify.css');
 </style>
