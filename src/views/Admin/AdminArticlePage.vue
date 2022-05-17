@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AdminArticleList from '@/components/Admin/Article/AdminArticleList.vue';
+import AdminArticleList from '@/components/admin/article/AdminArticleList.vue';
 export default {
   components: { AdminArticleList },
 };

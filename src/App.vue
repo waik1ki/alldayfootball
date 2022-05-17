@@ -15,7 +15,7 @@
 
 <script>
 import AppHeader from '@/components/AppHeader.vue';
-import AdminHeader from '@/components/Admin/common/AdminHeader.vue';
+import AdminHeader from '@/components/admin/common/AdminHeader.vue';
 import Footer from '@/components/Footer.vue';
 export default {
   components: {

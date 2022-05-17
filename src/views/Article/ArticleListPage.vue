@@ -238,7 +238,13 @@ export default {
   },
   methods: {
     async takeBoard(Num) {
-      const { data } = await fetchBoards(Num, this.limit, this.page, '');
+      const boardData = {
+        bNum: Num,
+        limit: this.limit,
+        page: this.page,
+        word: '',
+      };
+      const { data } = await fetchBoards(boardData);
       console.log(data);
       this.boardResult = data.docs;
       this.bLength = data.totalDocs;

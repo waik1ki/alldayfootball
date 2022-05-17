@@ -24,7 +24,9 @@ function editReview(id, title) {
 }
 
 function deleteReview(id) {
-  return instance.post('headline/delete', id);
+  return instance.post('headline/delete', {
+    id: id,
+  });
 }
 
 export {

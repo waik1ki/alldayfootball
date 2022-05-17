@@ -25,7 +25,9 @@ function editUser(userData) {
 }
 
 function deleteUser(id) {
-  return instance.post('auth/delete', id);
+  return instance.post('auth/delete', {
+    id: id,
+  });
 }
 
 export { check, login, logout, fetchUsers, registerUser, editUser, deleteUser };

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import AdminDrawer from '@/components/Admin/common/AdminDrawer.vue';
+import AdminDrawer from '@/components/admin/common/AdminDrawer.vue';
 
 export default {
   components: {

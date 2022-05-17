@@ -16,7 +16,9 @@ function editArticle(articleData) {
   return instance.put('board/edit', articleData);
 }
 function deleteArticle(id) {
-  return instance.post('board/delete', id);
+  return instance.post('board/delete', {
+    id: id,
+  });
 }
 
 function fetchArticle(num) {

@@ -262,7 +262,7 @@
                     v-model="page"
                     class="my-4"
                     color="#0C9045"
-                    :length="pLength"
+                    :length="pageLength"
                   ></v-pagination>
                 </v-container>
               </v-col>
@@ -290,8 +290,8 @@
 </template>
 
 <script>
-import AdminArticleWriteForm from '@/components/Admin/Article/AdminArticleWriteForm.vue';
-import AdminArticleEditForm from '@/components/Admin/Article/AdminArticleEditForm.vue';
+import AdminArticleWriteForm from '@/components/admin/article/AdminArticleWriteForm.vue';
+import AdminArticleEditForm from '@/components/admin/article/AdminArticleEditForm.vue';
 import { fetchSortedBoards } from '@/api/board';
 
 export default {
@@ -338,7 +338,7 @@ export default {
       }
       return sc;
     },
-    pLength() {
+    pageLength() {
       var quo = parseInt(this.bLength / 10);
       var rem = this.bLength % 10;
       if (quo === 0) return 1;

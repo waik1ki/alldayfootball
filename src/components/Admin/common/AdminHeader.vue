@@ -40,7 +40,6 @@ export default {
   },
   methods: {
     OpenAdminDrawer() {
-      console.log(window.location.href.includes('admin'));
       console.log(this.$vuetify.breakpoint.mdAndDown);
       this.$store.commit(
         'set_adminDrawerBool',

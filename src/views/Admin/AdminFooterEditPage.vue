@@ -12,7 +12,7 @@
 
 <script>
 import Footer from '@/components/Footer.vue';
-import AdminFooterEditForm from '@/components/Admin/AdminFooterEditForm.vue';
+import AdminFooterEditForm from '@/components/admin/AdminFooterEditForm.vue';
 export default {
   components: { Footer, AdminFooterEditForm },
   data() {
