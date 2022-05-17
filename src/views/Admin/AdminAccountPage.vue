@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import AdminAccountList from '@/components/Admin/Account/AdminAccountList.vue';
+import AdminAccountList from '@/components/admin/account/AdminAccountList.vue';
 export default {
   components: { AdminAccountList },
 };

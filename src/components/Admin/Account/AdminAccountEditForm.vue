@@ -3,7 +3,7 @@
     <v-row class="mb-3">
       <v-col class="black d-flex align-center" cols="12" lg="12">
         <p class="sliderTitleText" style="color:white;">관리자 정보 수정</p>
-        <v-btn @click="close" class="ml-auto" icon
+        <v-btn @click="$emit('close')" class="ml-auto" icon
           ><v-icon color="white">mdi-close</v-icon></v-btn
         >
       </v-col>
@@ -116,7 +116,12 @@
 <script>
 import { imageUpload } from '@/api/storage';
 import { editUser, deleteUser } from '@/api/auth';
+
+import Methods_ResponseAction from '@/mixins/account/Methods_ResponseAction';
+import Mounted_InitJodit from '@/mixins/account/Methods_InitForm';
+
 export default {
+  mixins: [Methods_ResponseAction, Mounted_InitJodit],
   props: {
     user: {
       type: Object,
@@ -153,43 +158,10 @@ export default {
       };
       const { data } = await editUser(userData);
       this.responseAction(data);
-      this.$emit('refresh');
-    },
-    responseAction(data) {
-      switch (data) {
-        case 'updated':
-          alert('수정되었습니다.');
-          this.initForm();
-          break;
-        case 'deleted':
-          alert('삭제되었습니다.');
-          break;
-        case 'not_logged':
-          alert('권한이 없습니다.');
-          break;
-        case 'not_admin':
-          alert('권한이 없습니다.');
-          break;
-        default:
-          alert('권한이 없습니다.');
-          break;
-      }
-    },
-    initForm() {
-      this.id = '';
-      this.name = '';
-      this.email = '';
-      this.password = '';
-      this.radio = 0;
-      this.file = '';
     },
     async deleteUserData(id) {
       const { data } = await deleteUser(id);
       this.responseAction(data);
-      this.$emit('refresh');
-    },
-    close() {
-      this.$emit('close');
     },
   },
 };

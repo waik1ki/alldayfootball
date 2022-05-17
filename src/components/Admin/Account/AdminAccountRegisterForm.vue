@@ -3,7 +3,7 @@
     <v-row class="mb-3">
       <v-col class="black d-flex align-center" cols="12" lg="12">
         <p class="sliderTitleText" style="color:white;">관리자 등록</p>
-        <v-btn @click="close" class="ml-auto" icon
+        <v-btn @click="$emit('close')" class="ml-auto" icon
           ><v-icon color="white">mdi-close</v-icon></v-btn
         >
       </v-col>
@@ -94,7 +94,12 @@
 <script>
 import { imageUpload } from '@/api/storage';
 import { registerUser } from '@/api/auth';
+
+import Methods_ResponseAction from '@/mixins/account/Methods_ResponseAction';
+import Mounted_InitJodit from '@/mixins/account/Methods_InitForm';
+
 export default {
+  mixins: [Methods_ResponseAction, Mounted_InitJodit],
   data() {
     return {
       id: '',
@@ -106,7 +111,7 @@ export default {
     };
   },
   methods: {
-    async register() {
+    inputValidation() {
       if (this.id === '') {
         alert('id를 입력하세요');
         return;
@@ -123,6 +128,9 @@ export default {
         alert('이메일을 입력하세요');
         return;
       }
+    },
+    async register() {
+      this.inputValidation();
       var photoURL = '';
       if (this.file != '') {
         const formData = new FormData();
@@ -130,6 +138,7 @@ export default {
         const { data } = await imageUpload(formData);
         photoURL = data.slice(0);
       }
+
       const userData = {
         id: this.id,
         name: this.name,
@@ -140,38 +149,6 @@ export default {
       };
       const { data } = await registerUser(userData);
       this.responseAction(data);
-      this.$emit('refresh');
-    },
-    responseAction(data) {
-      switch (data) {
-        case 'registered':
-          alert('등록되었습니다.');
-          this.initForm();
-          break;
-        case 'not_logged':
-          alert('권한이 없습니다.');
-          break;
-        case 'id_exists':
-          alert('이미 등록된 ID입니다.');
-          break;
-        case 'not_admin':
-          alert('권한이 없습니다.');
-          break;
-        default:
-          alert('권한이 없습니다.');
-          break;
-      }
-    },
-    initForm() {
-      this.id = '';
-      this.name = '';
-      this.email = '';
-      this.password = '';
-      this.radio = 0;
-      this.file = '';
-    },
-    close() {
-      this.$emit('close');
     },
   },
 };

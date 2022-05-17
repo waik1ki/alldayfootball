@@ -76,8 +76,8 @@
 
 <script>
 import { fetchUsers } from '@/api/auth';
-import AdminAccountRegisterForm from './AdminAccountRegisterForm.vue';
-import AdminAccountEditForm from './AdminAccountEditForm.vue';
+import AdminAccountRegisterForm from '@/components/admin/account/AdminAccountRegisterForm.vue';
+import AdminAccountEditForm from '@/components/admin/account/AdminAccountEditForm.vue';
 
 export default {
   components: {
