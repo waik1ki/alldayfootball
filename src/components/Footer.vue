@@ -1,12 +1,12 @@
 <template>
   <div
-    v-if="isLoding"
+    v-if="!isLoding"
     class="Footer mt-10"
     style="width:100%; background-color:#00923B;"
   >
     <div
       :style="{ width: ContentWidth }"
-      class="mx-auto px-7"
+      class="mx-auto"
       v-if="!this.$vuetify.breakpoint.smAndDown"
     >
       <v-row class="py-6" no-gutters style="font-weight: 500;">
@@ -35,21 +35,21 @@
             매체소개
           </p>
           <p
-            @click="goto('/policy')"
+            @click="goto('/policy/youthpolicy')"
             style="color:white; cursor:pointer;"
             class="pl-16"
           >
             청소년 보호정책
           </p>
           <p
-            @click="goto('/terms-of-use')"
+            @click="goto('/policy/service')"
             style="color:white; cursor:pointer;"
             class="pl-16"
           >
             서비스이용약관
           </p>
           <p
-            @click="goto('/privacy-policy')"
+            @click="goto('/policy/privacy')"
             style="color:white; cursor:pointer;"
             class="pl-16"
           >
@@ -61,28 +61,28 @@
     <v-row v-if="this.$vuetify.breakpoint.smAndDown" no-gutters>
       <v-col class="d-flex justify-center my-5" cols="12">
         <p
-          @click="goto('/introduce')"
+          @click="goto('/policy/introduce')"
           style="color:white; cursor:pointer;"
           class="articleTinyText mx-3"
         >
           매체소개
         </p>
         <p
-          @click="goto('/policy')"
+          @click="goto('/policy/youthpolicy')"
           style="color:white; cursor:pointer;"
           class="articleTinyText mx-3"
         >
           청소년 보호정책
         </p>
         <p
-          @click="goto('/terms-of-use')"
+          @click="goto('/policy/service')"
           style="color:white; cursor:pointer;"
           class="articleTinyText mx-3"
         >
           서비스이용약관
         </p>
         <p
-          @click="goto('/privacy-policy')"
+          @click="goto('/privacy')"
           style="color:white; cursor:pointer;"
           class="articleTinyText mx-3"
         >
@@ -193,7 +193,7 @@ import { mapState } from 'vuex';
 export default {
   data() {
     return {
-      isLoding: false,
+      isLoding: true,
     };
   },
   created() {
@@ -223,7 +223,8 @@ export default {
   methods: {
     async fetchData() {
       await this.$store.dispatch('config/FETCH_FOOTER_DATA');
-      this.isLoding = true;
+      this.isLoding = false;
+      this.$emit('isLoding');
     },
     goto(r) {
       location.href = r;

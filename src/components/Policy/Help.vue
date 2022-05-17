@@ -68,5 +68,5 @@ export default {
 </script>
 
 <style>
-@import url('../assets/css/unify.css');
+@import url('../../assets/css/unify.css');
 </style>
