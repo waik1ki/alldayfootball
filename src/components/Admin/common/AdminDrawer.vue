@@ -58,28 +58,6 @@
           >
         </v-list-item-content>
       </v-list-item>
-      <v-list-group active-class="activeList" color="transparent" :value="true">
-        <template slot="appendIcon">
-          <v-icon color="white">mdi-chevron-down</v-icon>
-        </template>
-        <template v-slot:activator>
-          <v-list-item-title
-            style="color:white; text-align:center;"
-            class="subText ma-0 ml-8"
-            ><v-icon color="white" class="mr-2">mdi-cog</v-icon
-            >환경설정</v-list-item-title
-          >
-        </template>
-        <v-list-item-content v-for="(i, idx) in subMenu" :key="idx">
-          <v-list-item-title
-            @click="gotoList(i.to)"
-            style="color:white; text-align:center; cursor:pointer"
-            class="subText"
-            ><v-icon color="white" class="mr-2">{{ `mdi-${i.icon}` }}</v-icon
-            >{{ i.title }}</v-list-item-title
-          >
-        </v-list-item-content>
-      </v-list-group>
     </v-list>
     <!-- 메뉴 부분 ㅇㅅㅇ -->
   </v-navigation-drawer>
@@ -87,7 +65,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import { logout } from '@/api/auth';
 
 export default {
   data() {
@@ -99,23 +76,16 @@ export default {
           icon: 'newspaper-variant-multiple',
         },
         { title: '계정관리', to: '/admin/accout', icon: 'account-cog' },
+        { title: '후기관리', to: '/admin/review', icon: 'comment-text' },
+        { title: '푸터관리', to: '/admin/footer', icon: 'cog' },
       ],
-      subMenu: [{ title: '기타관리', to: '/admin/configtext', icon: 'text' }],
     };
   },
-  // async mounted() {
-  //   await this.$store.dispatch('CHECK_AUTH');
-  // },
   methods: {
     async Logout() {
-      const { data } = await logout();
-      this.$store.commit('auth/setUserData', {});
-      this.$store.commit('auth/setLoggedData', false);
+      const data = await this.$store.dispatch('auth/LOGOUT');
       alert(data);
       location.href = '/';
-    },
-    gotoList(to) {
-      location.href = to;
     },
     close() {
       this.adminDrawerBool = false;
@@ -173,7 +143,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('../../assets/css/unify.css');
+@import url('../../../assets/css/unify.css');
 .activeList {
   border-left: 2px solid white;
 }
