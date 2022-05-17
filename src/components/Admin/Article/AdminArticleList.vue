@@ -151,7 +151,7 @@
         </v-col>
         <v-col class="py-2" cols="5">
           <p
-            @click="routeEditPage(i.seq)"
+            @click="openEditDialog(i.seq)"
             style="overflow:hidden; border-right:1px solid rgba(0,0,0,.2);; cursor:pointer;"
             class="newsSubText"
           >
@@ -244,7 +244,7 @@
     <!-- 글쓰기 버튼 -->
     <v-row>
       <v-col class="d-flex justify-end mt-10" cols="12">
-        <v-btn class="mr-3" color="#509F3F" to="/admin/write"
+        <v-btn class="mr-3" color="#509F3F" @click="writeDialog = true"
           ><v-icon color="white">mdi-pencil-plus</v-icon>
           <p class="subText" style="color:white;">글쓰기</p></v-btn
         >
@@ -271,24 +271,49 @@
         </div>
       </v-col>
     </v-row>
+    <v-dialog v-model="writeDialog" :width="dialogWidth">
+      <admin-article-write-form
+        @refresh="fetchBoards"
+        @close="writeDialog = false"
+      ></admin-article-write-form>
+    </v-dialog>
+
+    <v-dialog v-model="editDialog" :width="dialogWidth">
+      <admin-article-edit-form
+        :articleNumber="articleNumber"
+        :visible="editDialog"
+        @refresh="fetchBoards"
+        @close="editDialog = false"
+      ></admin-article-edit-form>
+    </v-dialog>
   </div>
 </template>
 
 <script>
+import AdminArticleWriteForm from '@/components/Admin/Article/AdminArticleWriteForm.vue';
+import AdminArticleEditForm from '@/components/Admin/Article/AdminArticleEditForm.vue';
 import { fetchSortedBoards } from '@/api/board';
 
 export default {
+  components: {
+    AdminArticleWriteForm,
+    AdminArticleEditForm,
+  },
   data() {
     return {
       row: 'regTime',
       search: '',
       bLength: 0,
 
+      articleNumber: 0,
       boards: [],
       page: 1,
 
       category: ['풋볼레터', '뉴스', '칼럼'],
       select: ['풋볼레터', '뉴스', '칼럼'],
+
+      writeDialog: false,
+      editDialog: false,
     };
   },
   created() {
@@ -320,10 +345,30 @@ export default {
       if (quo > 0 && rem === 0) return quo;
       return quo + 1;
     },
+    dialogWidth() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '100%';
+        case 'sm':
+          return '100%';
+        case 'md':
+          return '90%';
+        case 'lg':
+          return '80%';
+        case 'xl':
+          return '70%';
+        default:
+          return '100%';
+      }
+    },
   },
   methods: {
     routeEditPage(num) {
       location.href = `/admin/edit?num=${num}`;
+    },
+    openEditDialog(num) {
+      this.articleNumber = parseInt(num);
+      this.editDialog = true;
     },
     async fetchBoards() {
       const { data } = await fetchSortedBoards(
@@ -335,6 +380,9 @@ export default {
       );
       this.boards = data.docs;
       this.bLength = data.totalDocs;
+
+      this.writeDialog = false;
+      this.editDialog = false;
     },
   },
   watch: {

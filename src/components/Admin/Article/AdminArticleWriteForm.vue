@@ -1,12 +1,15 @@
 <template>
-  <div class="Write">
-    <v-row class="my-5">
-      <v-col cols="12">
-        <p class="mainText">글쓰기</p>
+  <v-container style="background-color: #FBFBFB;" class="white">
+    <v-row class="mb-3">
+      <v-col class="black d-flex align-center" cols="12" lg="12">
+        <p class="sliderTitleText" style="color:white;">게시글 등록</p>
+        <v-btn @click="cancle('write')" class="ml-auto" icon
+          ><v-icon color="white">mdi-close</v-icon></v-btn
+        >
       </v-col>
     </v-row>
     <v-row class="mt-5" no-gutters>
-      <v-col cols="1">
+      <v-col cols="2">
         <v-select
           :items="boardList"
           v-model="select"
@@ -16,7 +19,7 @@
           solo
         ></v-select>
       </v-col>
-      <v-col style="border:1px solid rgba(55,55,55,.2);" cols="11">
+      <v-col style="border:1px solid rgba(55,55,55,.2);" cols="10">
         <v-text-field
           solo
           v-model="title"
@@ -38,7 +41,7 @@
         >
       </v-col>
     </v-row>
-  </div>
+  </v-container>
 </template>
 
 <script>

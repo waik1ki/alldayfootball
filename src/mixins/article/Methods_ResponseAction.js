@@ -5,16 +5,22 @@ export default {
         case 'uploaded':
           alert('작성되었습니다.');
           this.thumb = '';
-          window.location.href = '/admin/article';
+          this.$emit('refresh');
+          this.title = '';
+          this.editor.value = '<p><br></p>';
           break;
         case 'updated':
           alert('수정되었습니다.');
           this.thumb = '';
-          window.location.href = '/admin/article';
+          this.$emit('refresh');
+          this.title = '';
+          this.editor.value = '<p><br></p>';
           break;
         case 'deleted':
           alert('삭제되었습니다.');
-          window.location.href = '/admin/article';
+          this.$emit('refresh');
+          this.title = '';
+          this.editor.value = '<p><br></p>';
           break;
         case 'not_logged':
           alert('권한이 없습니다.');

@@ -2,7 +2,7 @@
   <div class="my-5">
     <v-row class="my-5">
       <v-col cols="12">
-        <p class="mainSubText">구독자 후기</p>
+        <p class="mainText">후기관리</p>
       </v-col>
     </v-row>
 

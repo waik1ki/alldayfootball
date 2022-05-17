@@ -2,7 +2,7 @@
   <div class="my-5">
     <v-row class="my-5">
       <v-col cols="12">
-        <p class="mainSubText">푸터 내용 수정</p>
+        <p class="mainText">푸터관리</p>
       </v-col>
     </v-row>
     <Footer @isLoding="lodingState = true" />

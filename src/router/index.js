@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import axios from 'axios';
 import store from '@/store/index';
-axios.defaults.headers['Pragma'] = 'no-cache';
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -47,21 +45,8 @@ const router = new VueRouter({
       meta: { auth: true },
       children: [
         {
-          path: 'write',
-          component: () =>
-            import('@/components/Admin/Article/AdminArticleWriteForm.vue'),
-          meta: { auth: true },
-        },
-        {
-          path: 'edit',
-          component: () =>
-            import('@/components/Admin/Article/AdminArticleEditForm.vue'),
-          meta: { auth: true },
-        },
-        {
           path: 'article',
-          component: () =>
-            import('@/components/Admin/Article/AdminArticleList.vue'),
+          component: () => import('@/views/Admin/AdminArticlePage.vue'),
           meta: { auth: true },
         },
         {

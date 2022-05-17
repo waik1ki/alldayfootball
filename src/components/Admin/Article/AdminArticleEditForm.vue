@@ -1,8 +1,11 @@
 <template>
-  <div class="Edit">
-    <v-row class="my-5">
-      <v-col cols="12">
-        <p class="titleSubText">글쓰기</p>
+  <v-container style="background-color: #FBFBFB;" class="white">
+    <v-row class="mb-3">
+      <v-col class="black d-flex align-center" cols="12" lg="12">
+        <p class="sliderTitleText" style="color:white;">게시글 수정</p>
+        <v-btn @click="cancle('edit')" class="ml-auto" icon
+          ><v-icon color="white">mdi-close</v-icon></v-btn
+        >
       </v-col>
     </v-row>
     <v-row class="mt-5" no-gutters>
@@ -40,13 +43,17 @@
           ><v-icon color="white">mdi-trash-can-outline</v-icon>
           <p class="subText" style="color:white;">삭제</p></v-btn
         >
-        <v-btn @click="cancle" class="ma-3" width="100px" color="#737373"
+        <v-btn
+          @click="cancle('edit')"
+          class="ma-3"
+          width="100px"
+          color="#737373"
           ><v-icon color="white">mdi-close</v-icon>
           <p class="subText" style="color:white;">취소</p></v-btn
         >
       </v-col>
     </v-row>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -59,6 +66,10 @@ import Methods_CancleEditArticle from '@/mixins/article/Methods_CancleEditArticl
 import Methods_ResponseAction from '@/mixins/article/Methods_ResponseAction';
 
 export default {
+  props: {
+    visible: Boolean,
+    articleNumber: Number,
+  },
   mixins: [
     Computed_ReturnBoardNumber,
     Mounted_InitJodit,
@@ -81,9 +92,16 @@ export default {
   created() {
     this.fetchArticleData();
   },
+  watch: {
+    visible() {
+      if (this.visible === true) {
+        this.fetchArticleData();
+      }
+    },
+  },
   methods: {
     async fetchArticleData() {
-      const { data } = await fetchArticle(parseInt(this.$route.query.num));
+      const { data } = await fetchArticle(this.articleNumber);
       this.id = data._id;
       this.title = data.title;
       this.editor.value = data.contents;
