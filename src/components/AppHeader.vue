@@ -70,13 +70,13 @@
           <div class="d-flex justify-center px-3" style="width: 100%;">
             <p class="mx-auto"><a class="navTitle" href="/">홈</a></p>
             <p class="mx-auto">
-              <a class="navTitle" href="/Articlelist?name=k1">풋볼레터</a>
+              <a class="navTitle" href="/article/list?name=k1">풋볼레터</a>
             </p>
             <p class="mx-auto">
-              <a class="navTitle" href="/Articlelist?name=k2">뉴스</a>
+              <a class="navTitle" href="/article/list?name=k2">뉴스</a>
             </p>
             <p class="mx-auto">
-              <a class="navTitle" href="/Articlelist?name=k3">칼럼</a>
+              <a class="navTitle" href="/article/list?name=k3">칼럼</a>
             </p>
             <p class="mx-auto">
               <a class="navTitle" href="/introduce">매체소개</a>
@@ -138,11 +138,6 @@ export default {
 </style>
 
 <style>
-.v-text-field.v-text-field--solo .v-input__control {
-  min-height: 42px !important;
-  width: 200px;
-  align-self: center;
-}
 .logo {
   cursor: pointer;
 }

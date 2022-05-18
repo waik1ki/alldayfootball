@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="state"
-    width="650"
-    persistent
-    @click:outside="$emit('close')"
-  >
+  <v-dialog v-model="state" width="650" @click:outside="$emit('close')">
     <v-card class="px-5 py-3">
       <v-card class="d-flex justify-end mb-3" elevation="0">
         <v-spacer></v-spacer>

@@ -179,8 +179,7 @@
 
 <script>
 import { fetchBoards } from '@/api/board';
-import axios from 'axios';
-axios.defaults.headers['Pragma'] = 'no-cache';
+
 export default {
   data() {
     return {
@@ -206,30 +205,6 @@ export default {
       case 'k3':
         this.takeBoard(2);
         this.queryTitle = '칼럼';
-        break;
-      case 'k4':
-        this.takeBoard(3);
-        break;
-      case 'k5':
-        this.takeBoard(4);
-        break;
-      case 'article01':
-        this.takeBoard(5);
-        break;
-      case 'article02':
-        this.takeBoard(6);
-        break;
-      case 'article03':
-        this.takeBoard(7);
-        break;
-      case 'article04':
-        this.takeBoard(8);
-        break;
-      case 'article05':
-        this.takeBoard(9);
-        break;
-      case 'search':
-        this.takeBoard(10);
         break;
       default:
         this.takeBoard(0);
@@ -319,30 +294,6 @@ export default {
         case 'k3':
           this.takeBoard(2);
           break;
-        case 'k4':
-          this.takeBoard(3);
-          break;
-        case 'k5':
-          this.takeBoard(4);
-          break;
-        case 'article01':
-          this.takeBoard(5);
-          break;
-        case 'article02':
-          this.takeBoard(6);
-          break;
-        case 'article03':
-          this.takeBoard(7);
-          break;
-        case 'article04':
-          this.takeBoard(8);
-          break;
-        case 'article05':
-          this.takeBoard(9);
-          break;
-        case 'search':
-          this.takeBoard(10);
-          break;
         default:
           this.takeBoard(0);
           break;
@@ -358,30 +309,6 @@ export default {
           break;
         case 'k3':
           this.takeBoard(2);
-          break;
-        case 'k4':
-          this.takeBoard(3);
-          break;
-        case 'k5':
-          this.takeBoard(4);
-          break;
-        case 'article01':
-          this.takeBoard(5);
-          break;
-        case 'article02':
-          this.takeBoard(6);
-          break;
-        case 'article03':
-          this.takeBoard(7);
-          break;
-        case 'article04':
-          this.takeBoard(8);
-          break;
-        case 'article05':
-          this.takeBoard(9);
-          break;
-        case 'search':
-          this.takeBoard(10);
           break;
         default:
           this.takeBoard(0);

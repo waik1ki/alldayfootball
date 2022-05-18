@@ -114,23 +114,23 @@ export default {
     inputValidation() {
       if (this.id === '') {
         alert('id를 입력하세요');
-        return;
+        return true;
       }
       if (this.password === '') {
         alert('비밀번호를 입력하세요');
-        return;
+        return true;
       }
       if (this.name === '') {
         alert('이름을 입력하세요');
-        return;
+        return true;
       }
       if (this.email === '') {
         alert('이메일을 입력하세요');
-        return;
+        return true;
       }
     },
     async register() {
-      this.inputValidation();
+      if (this.inputValidation()) return;
       var photoURL = '';
       if (this.file != '') {
         const formData = new FormData();

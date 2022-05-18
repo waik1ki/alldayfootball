@@ -271,14 +271,14 @@
         </div>
       </v-col>
     </v-row>
-    <v-dialog v-model="writeDialog" :width="dialogWidth">
+    <v-dialog v-model="writeDialog" :width="dialogWidth" persistent>
       <admin-article-write-form
         @refresh="fetchBoards"
         @close="writeDialog = false"
       ></admin-article-write-form>
     </v-dialog>
 
-    <v-dialog v-model="editDialog" :width="dialogWidth">
+    <v-dialog v-model="editDialog" :width="dialogWidth" persistent>
       <admin-article-edit-form
         :articleNumber="articleNumber"
         :visible="editDialog"

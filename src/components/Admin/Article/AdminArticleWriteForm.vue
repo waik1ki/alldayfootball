@@ -1,7 +1,7 @@
 <template>
   <v-container style="background-color: #FBFBFB;" class="white">
     <v-row class="mb-3">
-      <v-col class="black d-flex align-center" cols="12" lg="12">
+      <v-col class="black d-flex align-center" cols="12">
         <p class="sliderTitleText" style="color:white;">게시글 등록</p>
         <v-btn @click="cancle('write')" class="ml-auto" icon
           ><v-icon color="white">mdi-close</v-icon></v-btn
@@ -28,7 +28,7 @@
         ></v-text-field>
       </v-col>
       <v-col style="border-bottom:1px solid grey;" cols="12">
-        <textarea ref="editor"></textarea>
+        <div ref="editor"></div>
       </v-col>
       <v-col class="d-flex justify-center" cols="12">
         <v-btn class="ma-3" @click="submitForm" color="#509F3F"
