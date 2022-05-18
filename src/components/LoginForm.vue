@@ -1,21 +1,19 @@
 <template>
-  <div style="height: 80vh;" class="Login mx-auto d-flex">
-    <div style="width:100%;" class="my-auto">
-      <v-row class="d-flex justify-center">
-        <v-col cols="6" class="d-flex justify-center">
-          <v-card width="300" height="100" elevation="0">
-            <v-img
-              width="100%"
-              height="100%"
-              contain
-              src="../assets/logo/logo.png"
-            ></v-img>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row v-if="!logged" class="mt-7 d-flex justify-center">
-        <v-col cols="6">
+  <div
+    style="height: 80vh;"
+    class="Login mx-auto d-flex align-center justify-center"
+  >
+    <v-card width="450" height="250" elevation="8">
+      <div
+        style="background-color: rgba(0,0,0,.85); height: 50px;"
+        class="d-flex align-center"
+      >
+        <h4 class="ml-4" style="color: rgba(255,255,255,.85);">페이지 관리</h4>
+      </div>
+      <div class="d-flex flex-column align-center loginForm">
+        <div style="width: 90%">
           <v-text-field
+            class="my-5"
             @keydown.enter="clickLogin"
             color="black"
             v-model="id"
@@ -23,11 +21,8 @@
             solo
             label="아이디"
           ></v-text-field>
-        </v-col>
-      </v-row>
-
-      <v-row class="d-flex justify-center">
-        <v-col v-if="!logged" cols="6">
+        </div>
+        <div style="width: 90%">
           <v-text-field
             @keydown.enter="Login"
             type="password"
@@ -36,40 +31,23 @@
             solo
             label="비밀번호"
           ></v-text-field>
-        </v-col>
-      </v-row>
-
-      <v-row class="d-flex justify-center">
-        <v-col
-          class="d-flex justify-center"
-          v-if="!logged"
-          align-self="center"
-          cols="6"
-        >
-          <v-btn @click="Login">로그인</v-btn>
-        </v-col>
-        <v-col
-          class="d-flex justify-center"
-          v-if="logged"
-          align-self="center"
-          cols="6"
-        >
-          <v-btn @click="Logout">로그아웃</v-btn>
-        </v-col>
-      </v-row>
-    </div>
+        </div>
+        <div class="mt-5">
+          <v-btn @click="Login" color="rgba(0,0,0,.12)">
+            <h4>Login</h4>
+          </v-btn>
+        </div>
+      </div>
+    </v-card>
   </div>
 </template>
 
 <script>
-import { logout } from '@/api/auth';
-
 export default {
   data() {
     return {
       id: '',
       password: '',
-      logged: false,
     };
   },
   methods: {
@@ -90,15 +68,18 @@ export default {
         console.log(error);
       }
     },
-    async Logout() {
-      const response = await logout();
-      this.$store.commit('auth/setUserData', null);
-      console.log(response);
-    },
   },
 };
 </script>
 
 <style scoped>
 @import url('../assets/css/unify.css');
+</style>
+
+<style>
+.loginForm .v-text-field.v-text-field--solo .v-input__control {
+  min-height: 42px !important;
+  width: 200px;
+  align-self: center;
+}
 </style>
