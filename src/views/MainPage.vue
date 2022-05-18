@@ -131,7 +131,7 @@
 import { fetchBoards } from '@/api/board';
 
 import Review from '@/components/Review.vue';
-import Subscribe from '@/components/Subscribe.vue';
+import Subscribe from '@/components/subscribe/Subscribe.vue';
 
 export default {
   components: {

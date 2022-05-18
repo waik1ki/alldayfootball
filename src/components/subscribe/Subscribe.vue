@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-img
-      src="../assets/백그라운드이미지.jpg"
+      src="../../assets/백그라운드이미지.jpg"
       width="100%"
       :height="mobileheight"
       class="d-flex align-center justify-center"
@@ -127,9 +127,9 @@
 </template>
 
 <script>
-import Privacy from '@/components/dialog/Privacy.vue';
-import Advert from '@/components/dialog/Advert.vue';
-import Congrats from '@/components/dialog/Congrats.vue';
+import Privacy from '@/components/subscribe/dialog/Privacy.vue';
+import Advert from '@/components/subscribe/dialog/Advert.vue';
+import Congrats from '@/components/subscribe/dialog/Congrats.vue';
 import { subscribe } from '@/api/stibee';
 import { validateEmail } from '@/utils/validation';
 
@@ -312,7 +312,7 @@ export default {
 </script>
 
 <style>
-@import url('../assets/css/unify.css');
+@import url('../../assets/css/unify.css');
 
 .validationFalidText {
   color: rgba(220, 0, 0);
