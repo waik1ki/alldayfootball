@@ -175,7 +175,7 @@
                                 color="#0C9045"
                                 v-model="page"
                                 class="my-4"
-                                :length="pLength"
+                                :length="pageLength"
                                 ></v-pagination>
                             </v-container>
                             </v-col>

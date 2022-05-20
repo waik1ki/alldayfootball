@@ -1,10 +1,10 @@
 import { instance } from './index';
 
-function fetchBoards(boardData) {
+function fetchBoard(boardData) {
   return instance.post('board/takeboard', boardData);
 }
 
-function fetchSortedBoards(boardData) {
+function fetchSortedBoard(boardData) {
   return instance.post('board/takeboardsort', boardData);
 }
 
@@ -27,11 +27,24 @@ function fetchArticle(num) {
   });
 }
 
+function createArticleContents(id, contents) {
+  return instance.post('settingboard/write', {
+    id: id,
+    contents: contents,
+  });
+}
+
+function fetchArticles() {
+  return instance.get('board/find');
+}
+
 export {
-  fetchBoards,
-  fetchSortedBoards,
+  fetchBoard,
+  fetchSortedBoard,
   fetchArticle,
   createArticle,
   deleteArticle,
   editArticle,
+  fetchArticles,
+  createArticleContents,
 };

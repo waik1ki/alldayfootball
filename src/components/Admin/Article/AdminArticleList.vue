@@ -53,7 +53,7 @@
     <v-row no-gutters>
       <v-col class="d-flex align-center" cols="12">
         <v-text-field
-          @keypress.enter="fetchBoards"
+          @keypress.enter="fetchArticle"
           hide-details
           v-model="search"
           label="검색"
@@ -63,7 +63,7 @@
           icon
           style="height:90%;"
           class="mx-3 px-2"
-          @click="fetchBoards"
+          @click="fetchArticle"
           color="#0C9045"
           ><v-icon>mdi-magnify</v-icon></v-btn
         >
@@ -273,7 +273,7 @@
     </v-row>
     <v-dialog v-model="writeDialog" :width="dialogWidth" persistent>
       <admin-article-write-form
-        @refresh="fetchBoards"
+        @refresh="fetchArticle"
         @close="writeDialog = false"
       ></admin-article-write-form>
     </v-dialog>
@@ -282,7 +282,7 @@
       <admin-article-edit-form
         :articleNumber="articleNumber"
         :visible="editDialog"
-        @refresh="fetchBoards"
+        @refresh="fetchArticle"
         @close="editDialog = false"
       ></admin-article-edit-form>
     </v-dialog>
@@ -292,7 +292,7 @@
 <script>
 import AdminArticleWriteForm from '@/components/admin/article/AdminArticleWriteForm.vue';
 import AdminArticleEditForm from '@/components/admin/article/AdminArticleEditForm.vue';
-import { fetchSortedBoards } from '@/api/board';
+import { fetchSortedBoard } from '@/api/board';
 
 export default {
   components: {
@@ -303,7 +303,7 @@ export default {
     return {
       row: 'regTime',
       search: '',
-      bLength: 0,
+      totalArticleLength: 0,
 
       articleNumber: 0,
       boards: [],
@@ -317,7 +317,7 @@ export default {
     };
   },
   created() {
-    this.fetchBoards();
+    this.fetchArticle();
   },
   computed: {
     selectCode() {
@@ -339,8 +339,8 @@ export default {
       return sc;
     },
     pageLength() {
-      var quo = parseInt(this.bLength / 10);
-      var rem = this.bLength % 10;
+      var quo = parseInt(this.totalArticleLength / 10);
+      var rem = this.totalArticleLength % 10;
       if (quo === 0) return 1;
       if (quo > 0 && rem === 0) return quo;
       return quo + 1;
@@ -370,7 +370,7 @@ export default {
       this.articleNumber = parseInt(num);
       this.editDialog = true;
     },
-    async fetchBoards() {
+    async fetchArticle() {
       const boardData = {
         bNum: this.selectCode,
         limit: 10,
@@ -379,9 +379,9 @@ export default {
         sort: this.row,
       };
 
-      const { data } = await fetchSortedBoards(boardData);
+      const { data } = await fetchSortedBoard(boardData);
       this.boards = data.docs;
-      this.bLength = data.totalDocs;
+      this.totalArticleLength = data.totalDocs;
 
       this.writeDialog = false;
       this.editDialog = false;
@@ -389,13 +389,13 @@ export default {
   },
   watch: {
     page() {
-      this.fetchBoards();
+      this.fetchArticle();
     },
     select() {
-      this.fetchBoards();
+      this.fetchArticle();
     },
     row() {
-      this.fetchBoards();
+      this.fetchArticle();
     },
   },
 };

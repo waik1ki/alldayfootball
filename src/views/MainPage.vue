@@ -60,7 +60,7 @@
                 class="d-flex align-center"
                 elevation="0"
               >
-                <v-img src="../assets/뉴스레터.png"></v-img>
+                <v-img src="../assets/풋볼레터.png"></v-img>
               </v-card>
               <p
                 @click="goToView(i.seq)"
@@ -128,8 +128,8 @@
 </template>
 
 <script>
-import { fetchBoards } from '@/api/board';
-
+import axios from 'axios';
+import { fetchBoard, fetchArticles } from '@/api/board';
 import Review from '@/components/Review.vue';
 import Subscribe from '@/components/subscribe/Subscribe.vue';
 
@@ -286,8 +286,24 @@ export default {
         page: 1,
         word: '',
       };
-      const { data } = await fetchBoards(boradData);
+      const { data } = await fetchBoard(boradData);
       this.boardResult = data.docs;
+    },
+    async fetchAllArticle() {
+      const { data } = await fetchArticles();
+      console.log(data);
+      for (let x of data) {
+        console.log(x);
+        await axios.post('http://localhost:8007/api/article/write', {
+          thumb: x.thumb,
+          title: x.title,
+          contents: x.contents,
+          pretext: x.pretext,
+          author: x.author,
+          authorid: x.authorid,
+          bNum: x.bNum,
+        });
+      }
     },
     goToView(num) {
       location.href = `/articleView?num=${num}`;
