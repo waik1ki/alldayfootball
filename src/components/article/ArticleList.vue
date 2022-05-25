@@ -128,6 +128,7 @@ export default {
       console.log(data);
       this.boardResult = data.docs;
       this.totalArticleLength = data.totalDocs;
+      this.$vuetify.goTo('#appheader');
     },
   },
   computed: {

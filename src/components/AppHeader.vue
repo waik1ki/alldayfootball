@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="appheader">
     <div :style="{ width: HeaderWidth }" class="Header mx-auto">
       <v-row no-gutters>
         <v-col
