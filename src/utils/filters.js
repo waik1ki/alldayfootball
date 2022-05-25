@@ -3,6 +3,10 @@ function sliceText(value) {
   return value.slice(0, 80);
 }
 
+function sliceDate(value) {
+  return value.slice(0, 10);
+}
+
 function maskingName(value) {
   if (value.length < 4) {
     return value.slice(0, 1) + '**';
@@ -15,4 +19,4 @@ function maskingName(value) {
   }
 }
 
-export { sliceText, maskingName };
+export { sliceText, sliceDate, maskingName };

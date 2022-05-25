@@ -24,7 +24,7 @@
       <v-col cols="12">
         <p class="articleTinyText">
           <v-icon x-small>mdi-calendar-month-outline</v-icon>
-          {{ item.regTime.slice(0, 10) }}
+          {{ item.regTime | sliceDate }}
         </p>
       </v-col>
     </v-row>

@@ -179,7 +179,7 @@
             class="sliderTitleText"
             style="overflow:hidden; border-right:1px solid rgba(0,0,0,.2);;"
           >
-            {{ i.regTime.slice(0, 10) }}
+            {{ i.regTime | sliceDate }}
           </p>
         </v-col>
         <v-col class="py-2" cols="1">
@@ -237,7 +237,7 @@
           </p>
         </v-col>
         <v-col class="py-2" cols="3">
-          <p class="sliderTitleText">{{ i.regTime.slice(0, 10) }}</p>
+          <p class="sliderTitleText">{{ i.regTime | sliceDate }}</p>
         </v-col>
       </v-row>
     </div>
