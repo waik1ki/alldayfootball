@@ -14,8 +14,22 @@ function getUserFromCookie() {
   }
 }
 
+function saveReadHistoryToCookie(value, date) {
+  document.cookie = `view${value}=${date}`;
+}
+
+function getReadHistoryFromCookie(value) {
+  return document.cookie.includes(`views${value}`);
+}
+
 function deleteCookie(value) {
   document.cookie = `${value}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 }
 
-export { saveUserToCookie, getUserFromCookie, deleteCookie };
+export {
+  saveUserToCookie,
+  getUserFromCookie,
+  saveReadHistoryToCookie,
+  getReadHistoryFromCookie,
+  deleteCookie,
+};

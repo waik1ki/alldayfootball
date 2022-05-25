@@ -38,13 +38,20 @@ function fetchArticles() {
   return instance.get('board/find');
 }
 
+function viewCountIncrease(num) {
+  return instance.put('board/addviews', {
+    seq: num,
+  });
+}
+
 export {
   fetchBoard,
   fetchSortedBoard,
   fetchArticle,
-  createArticle,
-  deleteArticle,
-  editArticle,
   fetchArticles,
+  createArticle,
   createArticleContents,
+  editArticle,
+  deleteArticle,
+  viewCountIncrease,
 };
