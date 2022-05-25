@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoding">
+  <div v-if="!isLoading">
     <p class="text-center mb-1 mainSubText">구독자 후기</p>
     <carousel-3d
       :width="300"
@@ -37,7 +37,7 @@ import { fetchReviews } from '@/api/review';
 export default {
   data() {
     return {
-      isLoding: false,
+      isLoading: true,
       reviews: [],
     };
   },
@@ -52,7 +52,7 @@ export default {
     async fetchReviewsData() {
       const { data } = await fetchReviews();
       this.reviews = data;
-      this.isLoding = true;
+      this.isLoading = false;
     },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!isLoding"
+    v-if="!isLoading"
     class="Footer mt-10"
     style="width:100%; background-color:#00923B;"
   >
@@ -193,7 +193,7 @@ import { mapState } from 'vuex';
 export default {
   data() {
     return {
-      isLoding: true,
+      isLoading: true,
     };
   },
   created() {
@@ -223,8 +223,8 @@ export default {
   methods: {
     async fetchData() {
       await this.$store.dispatch('config/FETCH_FOOTER_DATA');
-      this.isLoding = false;
-      this.$emit('isLoding');
+      this.isLoading = false;
+      this.$emit('isLoading');
     },
     goto(r) {
       location.href = r;

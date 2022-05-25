@@ -5,8 +5,8 @@
         <p class="mainText">푸터관리</p>
       </v-col>
     </v-row>
-    <Footer @isLoding="lodingState = true" />
-    <admin-footer-edit-form v-if="lodingState"></admin-footer-edit-form>
+    <Footer @isLoading="loadingState = true" />
+    <admin-footer-edit-form v-if="loadingState"></admin-footer-edit-form>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   components: { Footer, AdminFooterEditForm },
   data() {
     return {
-      lodingState: false,
+      loadingState: false,
     };
   },
 };
